@@ -1,3 +1,9 @@
+import BasicModal from "../../components/Modal";
+
 export default function CancelledFlights() {
-  return <div>CancelledFlights</div>;
+  return (
+    <div>
+      <BasicModal />
+    </div>
+  );
 }

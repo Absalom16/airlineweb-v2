@@ -5,7 +5,8 @@ import {
   Container,
   Typography,
   Grid,
-  Paper,
+  Card,
+  CardContent,
 } from "@mui/material";
 
 const Signin = () => {
@@ -29,46 +30,49 @@ const Signin = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h5" align="center" gutterBottom>
-        Sign In
-      </Typography>
-      <Paper elevation={3} style={{ padding: 20 }}>
-        <form onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-              />
+    <Container component="main" maxWidth="md">
+      <Card elevation={20}>
+        <CardContent>
+          <Typography variant="h5" align="center" gutterBottom>
+            Sign In
+          </Typography>
+
+          <form onSubmit={handleSubmit}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Password"
+                  name="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                >
+                  Sign In
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Password"
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                fullWidth
-              >
-                Sign In
-              </Button>
-            </Grid>
-          </Grid>
-        </form>
-      </Paper>
+          </form>
+        </CardContent>
+      </Card>
     </Container>
   );
 };
