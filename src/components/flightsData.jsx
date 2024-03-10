@@ -12,10 +12,14 @@ import {
   TableRow,
   Button,
 } from "@mui/material";
+import BookFlightModal from "./BookFlightModal";
 
 const FlightsData = ({ columns, rows, title }) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const [openBookFlightModal, setOpenBookFlightModal] = React.useState(false);
+  const [selectedFlight, setSelectedFlight] = React.useState("");
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -27,7 +31,11 @@ const FlightsData = ({ columns, rows, title }) => {
   };
 
   return (
-    <Container component="main" maxWidth="l">
+    <Container
+      component="main"
+      maxWidth="l"
+      style={{ marginTop: "2%", marginBottom: "2%" }}
+    >
       <Card elevation={20}>
         <CardContent>
           <TableContainer sx={{ maxHeight: 440 }}>
@@ -66,9 +74,18 @@ const FlightsData = ({ columns, rows, title }) => {
                           return (
                             <TableCell key={colIndex} align={column.align}>
                               {column.id === "actionBook" ? (
-                                <Button variant="contained" color="primary">
-                                  Book
-                                </Button>
+                                <>
+                                  <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => {
+                                      setSelectedFlight(row);
+                                      setOpenBookFlightModal(true);
+                                    }}
+                                  >
+                                    Book
+                                  </Button>
+                                </>
                               ) : column.id === "actionPrintTicket" ? (
                                 // Render something else for "someOtherColumn"
                                 <Button variant="contained" color="primary">
@@ -103,6 +120,11 @@ const FlightsData = ({ columns, rows, title }) => {
                       </TableRow>
                     );
                   })}
+                <BookFlightModal
+                  flight={selectedFlight}
+                  open={openBookFlightModal}
+                  close={setOpenBookFlightModal}
+                />
               </TableBody>
             </Table>
           </TableContainer>

@@ -3,17 +3,15 @@ import Sidebar from "../../components/Sidebar";
 import ListItem from "@mui/material/ListItem";
 import { Outlet } from "react-router-dom";
 
-const ClientPageLayout = () => {
+const AdminPageLayout = () => {
   return (
     <Grid
       container
       spacing={2}
       style={{
         marginTop: "2%",
-        // marginLeft: "1px",
-        // marginRight: "1px",
         width: "100vw",
-        height: "90vh",
+        height: "93vh",
       }}
     >
       {/* Left Section */}
@@ -44,7 +42,7 @@ const ClientPageLayout = () => {
             backgroundColor: "#d3d3d3",
             overflow: "auto",
             width: "100%",
-            textAlign: "center"
+            textAlign: "center",
           }}
         >
           <Outlet />
@@ -54,4 +52,4 @@ const ClientPageLayout = () => {
   );
 };
 
-export default ClientPageLayout;
+export default AdminPageLayout;

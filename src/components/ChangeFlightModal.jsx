@@ -1,37 +1,49 @@
-import { useState } from "react";
-import { Dialog, DialogTitle, DialogContent, Button } from "@mui/material";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Button,
+  ButtonGroup,
+  Box,
+} from "@mui/material";
 
-const ChangeFlightModal = ({
+const buttons = [
+  <Button key="one">Cancel flight</Button>,
+  <Button key="two">Add passenger</Button>,
+  <Button key="three">Change passenger</Button>,
+  <Button key="three">Change seats</Button>,
+  <Button key="three">Delete passenger</Button>,
+];
+
+const CancelFlightModal = ({
   open = true,
-  handleClose = () => {
-    console.log("modal");
-  },
-  data = [1, 2, 3, 4, 5],
+  // close,
+
+  // handleClose = () => {
+  //   close(false);
+  // },
 }) => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const handleNextSlide = () => {
-    setCurrentSlide((prevSlide) => (prevSlide + 1) % data.length);
-  };
-
-  const handlePrevSlide = () => {
-    setCurrentSlide((prevSlide) =>
-      prevSlide === 0 ? data.length - 1 : prevSlide - 1
-    );
-  };
-
   return (
-    <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Modal Slideshow</DialogTitle>
+    <Dialog open={open} style={{}}>
+      <DialogTitle>Change flight</DialogTitle>
       <DialogContent>
-        {/* Display current slide */}
-        <div>{data[currentSlide]}</div>
-        {/* Buttons for navigating slides */}
-        <Button onClick={handlePrevSlide}>Previous</Button>
-        <Button onClick={handleNextSlide}>Next</Button>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <ButtonGroup
+            orientation="vertical"
+            aria-label="Vertical button group"
+            variant="contained"
+          >
+            {buttons}
+          </ButtonGroup>
+        </Box>
       </DialogContent>
     </Dialog>
   );
 };
 
-export default ChangeFlightModal;
+export default CancelFlightModal;

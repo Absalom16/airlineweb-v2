@@ -20,18 +20,24 @@ const AccountData = ({
   canceledFlights = 5,
 }) => {
   return (
-    <Container component="main" maxWidth="md">
+    <Container
+      component="main"
+      maxWidth="md"
+      style={{ marginTop: "2%", marginBottom: "2%" }}
+    >
       <Card elevation={20}>
         <CardContent>
           <TableContainer
             // component={Card}
             elevation={3}
-            style={{
-              // marginRight: "20px",
-              // marginLeft: "20px",
-              // marginTop: "20px",
-              // marginBottom: "20px",
-            }}
+            style={
+              {
+                // marginRight: "20px",
+                // marginLeft: "20px",
+                // marginTop: "20px",
+                // marginBottom: "20px",
+              }
+            }
           >
             <Table>
               <TableHead>

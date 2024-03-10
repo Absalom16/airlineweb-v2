@@ -9,11 +9,9 @@ const ClientPageLayout = () => {
       container
       spacing={2}
       style={{
-        marginTop: "2px",
-        // marginLeft: "1px",
-        // marginRight: "1px",
+        marginTop: "2%",
         width: "100vw",
-        height: "80vh",
+        height: "93vh",
       }}
     >
       {/* Left Section */}
@@ -21,7 +19,7 @@ const ClientPageLayout = () => {
         {/* Content for left section */}
         <div
           style={{
-            height: "80vh",
+            height: "100%",
             backgroundColor: "#f0f0f0",
           }}
         >
@@ -40,7 +38,7 @@ const ClientPageLayout = () => {
         {/* Content for right section */}
         <div
           style={{
-            height: "80vh",
+            height: "100%",
             backgroundColor: "#d3d3d3",
             overflow: "auto",
             width: "100%",

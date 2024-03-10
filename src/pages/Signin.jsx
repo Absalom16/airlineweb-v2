@@ -4,7 +4,6 @@ import {
   Button,
   Container,
   Typography,
-  Grid,
   Card,
   CardContent,
 } from "@mui/material";
@@ -30,7 +29,7 @@ const Signin = () => {
   };
 
   return (
-    <Container component="main" maxWidth="md">
+    <Container component="main" maxWidth="sm">
       <Card elevation={20}>
         <CardContent>
           <Typography variant="h5" align="center" gutterBottom>
@@ -38,38 +37,31 @@ const Signin = () => {
           </Typography>
 
           <form onSubmit={handleSubmit}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Password"
-                  name="password"
-                  type="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                >
-                  Sign In
-                </Button>
-              </Grid>
-            </Grid>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              label="Email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              label="Password"
+              name="password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+
+            <Button type="submit" variant="contained" color="primary">
+              Sign In
+            </Button>
           </form>
         </CardContent>
       </Card>

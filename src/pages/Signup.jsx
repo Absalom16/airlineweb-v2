@@ -4,8 +4,8 @@ import {
   Button,
   Container,
   Typography,
-  Grid,
-  Paper,
+  Card,
+  CardContent,
 } from "@mui/material";
 
 const Signup = () => {
@@ -31,65 +31,63 @@ const Signup = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h5" align="center" gutterBottom>
-        Signup Form
-      </Typography>
-      <Paper elevation={3} style={{ padding: 20 }}>
-        <form onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Username"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Password"
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Phone Number"
-                name="phoneNumber"
-                type="tel"
-                value={formData.phoneNumber}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                fullWidth
-              >
-                Sign Up
-              </Button>
-            </Grid>
-          </Grid>
-        </form>
-      </Paper>
+    <Container component="main" maxWidth="sm">
+      <Card elevation={20}>
+        <CardContent>
+          <Typography variant="h5" align="center" gutterBottom>
+            Signup
+          </Typography>
+
+          <form onSubmit={handleSubmit}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              label="Username"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+            />
+            <br />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              label="Email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              label="Password"
+              name="password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              label="Phone Number"
+              name="phoneNumber"
+              type="tel"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+            />
+
+            <Button type="submit" variant="contained" color="primary">
+              Sign Up
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
     </Container>
   );
 };

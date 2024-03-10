@@ -28,7 +28,11 @@ const AddCity = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container
+      component="main"
+      maxWidth="xs"
+      style={{ marginTop: "2%", marginBottom: "2%" }}
+    >
       <Card elevation={20}>
         <CardContent>
           <Typography component="h1" variant="h5">
