@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   TextField,
   Button,
@@ -6,7 +6,11 @@ import {
   Card,
   CardContent,
   Typography,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
+import { addFlight, getCities, getAircrafts } from "../../utilities/helpers.js";
 
 const AddFlight = () => {
   const [formData, setFormData] = useState({
@@ -21,6 +25,19 @@ const AddFlight = () => {
     businessClassCost: "",
     economyClassCost: "",
   });
+  const [cities, setCities] = useState([]);
+  const [aircrafts, setAircrafts] = useState([]);
+
+  useEffect(() => {
+    getCities((data) => {
+      setCities(data);
+    });
+    getAircrafts((data) => {
+      setAircrafts(data);
+    });
+  }, []);
+
+  console.log(cities);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,7 +50,7 @@ const AddFlight = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission
-    console.log(formData);
+    addFlight(formData);
   };
 
   return (
@@ -48,22 +65,47 @@ const AddFlight = () => {
             Add Flight
           </Typography>
           <form onSubmit={handleSubmit}>
-            <TextField
-              name="origin"
-              label="Origin"
-              value={formData.origin}
-              onChange={handleChange}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              name="destination"
-              label="Destination"
-              value={formData.destination}
-              onChange={handleChange}
-              fullWidth
-              margin="normal"
-            />
+            <>
+              <InputLabel id="demo-simple-select-label">Origin</InputLabel>
+              <Select
+                name="origin"
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={formData.origin}
+                label="Origin"
+                onChange={handleChange}
+                fullWidth
+              >
+                {cities.map((city, index) => {
+                  return (
+                    <MenuItem value={city.name} key={index}>
+                      {city.name}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </>
+
+            <>
+              <InputLabel id="demo-simple-select-label">Destination</InputLabel>
+              <Select
+                name="destination"
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={formData.destination}
+                label="Destination"
+                onChange={handleChange}
+                fullWidth
+              >
+                {cities.map((city, index) => {
+                  return (
+                    <MenuItem value={city.name} key={index}>
+                      {city.name}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </>
             <TextField
               name="departureDate"
               label="Departure Date"
@@ -112,14 +154,30 @@ const AddFlight = () => {
                 shrink: true,
               }}
             />
-            <TextField
-              name="aircraft"
-              label="Aircraft"
-              value={formData.aircraft}
-              onChange={handleChange}
-              fullWidth
-              margin="normal"
-            />
+
+            <>
+              <InputLabel id="demo-simple-select-label">Aircraft</InputLabel>
+              <Select
+                name="aircraft"
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={formData.aircraft}
+                label="Aircraft"
+                onChange={handleChange}
+                fullWidth
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              >
+                {aircrafts.map((city, index) => {
+                  return (
+                    <MenuItem value={city.name} key={index}>
+                      {city.name}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </>
             <TextField
               name="firstClassCost"
               label="First classs cost"

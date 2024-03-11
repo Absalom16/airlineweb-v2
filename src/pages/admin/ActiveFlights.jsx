@@ -1,6 +1,21 @@
+import { useState, useEffect } from "react";
 import FlightsData from "../../components/flightsData";
+import { getActiveFlights } from "../../utilities/helpers.js";
 
 export default function ActiveFlights() {
+  const [rows, setRows] = useState([]);
+
+  useEffect(() => {
+    getActiveFlights((data) => {
+      data.forEach((item) => {
+        item.flightNumber = item.id;
+        item.date = item.departureDate;
+        item.time = item.departureTime;
+      });
+      setRows(data);
+    });
+  }, []);
+
   const title = "Active Flights";
 
   const columns = [
@@ -11,24 +26,6 @@ export default function ActiveFlights() {
     { id: "time", label: "Time", minWidth: 170 },
     { id: "actionComplete", label: "Action", minWidth: 170 },
     { id: "actionCancel", label: "Action", minWidth: 170 },
-  ];
-
-  const rows = [
-    {
-      flightNumber: "FL123",
-      origin: "New York",
-      destination: "Los Angeles",
-      date: "2024-03-15",
-      time: "10:00 AM",
-    },
-    {
-      flightNumber: "FL456",
-      origin: "Chicago",
-      destination: "Miami",
-      date: "2024-03-16",
-      time: "1:00 PM",
-    },
-    // Add more rows as needed
   ];
 
   return (

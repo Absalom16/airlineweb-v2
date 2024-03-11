@@ -13,12 +13,23 @@ import {
   Button,
 } from "@mui/material";
 import BookFlightModal from "./BookFlightModal";
+import ChangeFlightModal from "./ChangeFlightModal";
+import CompleteFlightModal from "./CompleteFlightModal";
+import CancelFlightModal from "./CancelFlightModal";
+import ViewTicketsModal from "./ViewTicketsModal";
 
 const FlightsData = ({ columns, rows, title }) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const [openBookFlightModal, setOpenBookFlightModal] = React.useState(false);
+  const [openChangeFlightModal, setOpenChangeFlightModal] =
+    React.useState(false);
+  const [openCompleteFlightModal, setOpenCompleteFlightModal] =
+    React.useState(false);
+  const [openCancelFlightModal, setOpenCancelFlightModal] =
+    React.useState(false);
+  const [openViewTicketsModal, setOpenViewTicketsModal] = React.useState(false);
   const [selectedFlight, setSelectedFlight] = React.useState("");
 
   const handleChangePage = (event, newPage) => {
@@ -93,22 +104,46 @@ const FlightsData = ({ columns, rows, title }) => {
                                 </Button>
                               ) : column.id === "actionChange" ? (
                                 // Render something else for "someOtherColumn"
-                                <Button variant="contained" color="primary">
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={() => {
+                                    setOpenChangeFlightModal(true);
+                                  }}
+                                >
                                   Change
                                 </Button>
                               ) : column.id === "actionComplete" ? (
                                 // Render something else for "someOtherColumn"
-                                <Button variant="contained" color="primary">
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={() => {
+                                    setOpenCompleteFlightModal(true);
+                                  }}
+                                >
                                   Complete
                                 </Button>
                               ) : column.id === "actionCancel" ? (
                                 // Render something else for "someOtherColumn"
-                                <Button variant="contained" color="primary">
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={() => {
+                                    setOpenCancelFlightModal(true);
+                                  }}
+                                >
                                   Cancel
                                 </Button>
                               ) : column.id === "actionViewTickets" ? (
                                 // Render something else for "someOtherColumn"
-                                <Button variant="contained" color="primary">
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={() => {
+                                    setOpenViewTicketsModal(true);
+                                  }}
+                                >
                                   View
                                 </Button>
                               ) : (
@@ -124,6 +159,25 @@ const FlightsData = ({ columns, rows, title }) => {
                   flight={selectedFlight}
                   open={openBookFlightModal}
                   close={setOpenBookFlightModal}
+                  setSelectedFlight={setSelectedFlight}
+                />
+                <ChangeFlightModal
+                  flight={selectedFlight}
+                  open={openChangeFlightModal}
+                  close={setOpenChangeFlightModal}
+                  setSelectedFlight={setSelectedFlight}
+                />
+                <CompleteFlightModal
+                  open={openCompleteFlightModal}
+                  close={setOpenCompleteFlightModal}
+                />
+                <CancelFlightModal
+                  open={openCancelFlightModal}
+                  close={setOpenCancelFlightModal}
+                />
+                <ViewTicketsModal
+                  open={openViewTicketsModal}
+                  close={setOpenViewTicketsModal}
                 />
               </TableBody>
             </Table>

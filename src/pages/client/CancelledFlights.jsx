@@ -1,14 +1,15 @@
-// import BasicModal from "../../components/Modal";
+import BasicModal from "../../components/Modal";
 // import BookFlightModal from "../../components/BookFlightModal";
 // import Seats from "../../components/Seats";
-import ChangeFlightModal from "../../components/ChangeFlightModal";
-
+// import ChangeFlightModal from "../../components/ChangeFlightModal";
+//
 export default function CancelledFlights() {
   return (
     <div>
-      {/* <BasicModal /> */}
+      {/* cancelled Flights */}
+      <BasicModal>hello world</BasicModal>
       {/* <BookFlightModal /> */}
-      <ChangeFlightModal />
+      {/* <ChangeFlightModal /> */}
       {/* <Seats /> */}
     </div>
   );

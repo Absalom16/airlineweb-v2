@@ -1,0 +1,64 @@
+{
+  "users": [],
+  "flights": [
+    {
+      "id": "3c41",
+      "origin": "nairobi",
+      "destination": "kisumu",
+      "departureDate": "2024-03-11",
+      "arrivalDate": "2024-03-13",
+      "departureTime": "12:00",
+      "arrivalTime": "14:00",
+      "aircraft": "airbus2",
+      "firstClassCost": "3000",
+      "businessClassCost": "2000",
+      "economyClassCost": "1000",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "9ed1",
+      "origin": "mombasa",
+      "destination": "kisumu",
+      "departureDate": "2024-03-12",
+      "arrivalDate": "2024-03-13",
+      "departureTime": "12:09",
+      "arrivalTime": "07:01",
+      "aircraft": "airbus1",
+      "firstClassCost": "5000",
+      "businessClassCost": "4000",
+      "economyClassCost": "2000",
+      "status": "ACTIVE"
+    }
+  ],
+  "bookedFlights": [],
+  "cities": [
+    {
+      "id": "69d6",
+      "name": "nairobi"
+    },
+    {
+      "id": "4203",
+      "name": "kisumu"
+    },
+    {
+      "id": "d042",
+      "name": "mombasa"
+    }
+  ],
+  "aircrafts": [
+    {
+      "id": "d084",
+      "name": "airbus1",
+      "firstClassCapacity": "30",
+      "businessClassCapacity": "30",
+      "economyClassCapacity": "30"
+    },
+    {
+      "id": "899a",
+      "name": "airbus2",
+      "firstClassCapacity": "30",
+      "businessClassCapacity": "30",
+      "economyClassCapacity": "30"
+    }
+  ]
+}

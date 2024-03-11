@@ -7,6 +7,7 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
+import { addCity } from "../../utilities/helpers.js";
 
 const AddCity = () => {
   const [formData, setFormData] = useState({
@@ -24,7 +25,7 @@ const AddCity = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission
-    console.log(formData);
+    addCity(formData);
   };
 
   return (

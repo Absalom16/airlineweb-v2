@@ -17,8 +17,10 @@ const BookFlightModal = ({
   open,
   close,
   flight,
+  setSelectedFlight,
   handleClose = () => {
     close(false);
+    setSelectedFlight("")
   },
   data = [
     { question: "Which class are you booking?", inputType: "menuSelect" },
