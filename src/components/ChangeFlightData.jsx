@@ -60,8 +60,10 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
   };
 
   const deletePassengerData = {
-    deletedPassenger,
-    oldSeats,
+    passengers: flight.passengers
+      .split(",")
+      .filter((passenger) => passenger !== deletedPassenger),
+    seats: flight.seats.split(",").filter((seat) => seat !== oldSeats),
   };
 
   const handleClose = () => {
@@ -218,10 +220,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
   const handleDeletePassenger = () => {
     clientDeletePassenger(
       flight.id,
-      {
-        passengers: flight.passengers.replace(deletedPassenger, ""),
-        seats: flight.seats.replace(oldSeats, ""),
-      },
+      deletePassengerData,
       { seats: oldSeats },
       (data) => {
         console.log(data);

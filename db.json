@@ -56,8 +56,12 @@
       "id": "3d4c",
       "selectedClass": "business",
       "passengerQuantity": "2",
-      "passengers": "betcy, paul",
-      "seats": "2F,4H",
+      "passengers": [
+        "betcy"
+      ],
+      "seats": [
+        "2F"
+      ],
       "cost": 6000,
       "origin": "nairobi",
       "destination": "mombasa",

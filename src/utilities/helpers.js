@@ -61,6 +61,7 @@ export async function addAircraft(data) {
   data.firstClassSeats = firstClassSeats;
   data.businessClassSeats = businessClassSeats;
   data.economyClassSeats = economyClassSeats;
+  data.status = "INACTIVE";
 
   const response = await axios.post(`${url}/aircrafts`, data);
   return response;
