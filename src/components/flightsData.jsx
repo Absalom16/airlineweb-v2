@@ -108,6 +108,7 @@ const FlightsData = ({ columns, rows, title }) => {
                                   variant="contained"
                                   color="primary"
                                   onClick={() => {
+                                    setSelectedFlight(row);
                                     setOpenChangeFlightModal(true);
                                   }}
                                 >
@@ -119,6 +120,7 @@ const FlightsData = ({ columns, rows, title }) => {
                                   variant="contained"
                                   color="primary"
                                   onClick={() => {
+                                    setSelectedFlight(row);
                                     setOpenCompleteFlightModal(true);
                                   }}
                                 >
@@ -130,6 +132,7 @@ const FlightsData = ({ columns, rows, title }) => {
                                   variant="contained"
                                   color="primary"
                                   onClick={() => {
+                                    setSelectedFlight(row);
                                     setOpenCancelFlightModal(true);
                                   }}
                                 >
@@ -141,6 +144,7 @@ const FlightsData = ({ columns, rows, title }) => {
                                   variant="contained"
                                   color="primary"
                                   onClick={() => {
+                                    setSelectedFlight(row);
                                     setOpenViewTicketsModal(true);
                                   }}
                                 >
@@ -168,16 +172,22 @@ const FlightsData = ({ columns, rows, title }) => {
                   setSelectedFlight={setSelectedFlight}
                 />
                 <CompleteFlightModal
+                  flight={selectedFlight}
                   open={openCompleteFlightModal}
                   close={setOpenCompleteFlightModal}
+                  setSelectedFlight={setSelectedFlight}
                 />
                 <CancelFlightModal
+                  flight={selectedFlight}
                   open={openCancelFlightModal}
                   close={setOpenCancelFlightModal}
+                  setSelectedFlight={setSelectedFlight}
                 />
                 <ViewTicketsModal
+                  flight={selectedFlight}
                   open={openViewTicketsModal}
                   close={setOpenViewTicketsModal}
+                  setSelectedFlight={setSelectedFlight}
                 />
               </TableBody>
             </Table>

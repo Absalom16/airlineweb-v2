@@ -53,6 +53,7 @@ const AddAircraft = () => {
             />
             <TextField
               name="firstClassCapacity"
+              type="number"
               label="First class capacity"
               value={formData.firstClassCapacity}
               onChange={handleChange}
@@ -61,6 +62,7 @@ const AddAircraft = () => {
             />
             <TextField
               name="businessClassCapacity"
+              type="number"
               label="Business class capacity"
               value={formData.businessClassCapacity}
               onChange={handleChange}
@@ -69,6 +71,7 @@ const AddAircraft = () => {
             />
             <TextField
               name="economyClassCapacity"
+              type="number"
               label="Economy class capacity"
               value={formData.economyClassCapacity}
               onChange={handleChange}

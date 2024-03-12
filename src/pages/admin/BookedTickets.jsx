@@ -1,6 +1,9 @@
+import { useState, useEffect } from "react";
 import FlightsData from "../../components/flightsData";
+import { getAllFlights } from "../../utilities/helpers";
 
 export default function BookedTickets() {
+  const [rows, setRows] = useState([]);
   const title = "Booked Tickets";
 
   const columns = [
@@ -13,25 +16,17 @@ export default function BookedTickets() {
     { id: "actionViewTickets", label: "Action", minWidth: 170 },
   ];
 
-  const rows = [
-    {
-      flightNumber: "FL123",
-      origin: "New York",
-      destination: "Los Angeles",
-      date: "2024-03-15",
-      time: "10:00 AM",
-      aircraft: "airbus 1",
-    },
-    {
-      flightNumber: "FL456",
-      origin: "Chicago",
-      destination: "Miami",
-      date: "2024-03-16",
-      time: "1:00 PM",
-      aircraft: "airbus 1",
-    },
-    // Add more rows as needed
-  ];
+  useEffect(() => {
+    getAllFlights((data) => {
+      data.forEach((flight) => {
+        flight.flightNumber = flight.id;
+        flight.date = flight.departureDate;
+        flight.time = flight.departureTime;
+        flight.aircraft = flight.aircraft.name;
+      });
+      setRows(data);
+    });
+  }, []);
 
   return (
     <div>

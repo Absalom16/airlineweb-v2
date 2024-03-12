@@ -169,10 +169,10 @@ const AddFlight = () => {
                   shrink: true,
                 }}
               >
-                {aircrafts.map((city, index) => {
+                {aircrafts.map((aircraft, index) => {
                   return (
-                    <MenuItem value={city.name} key={index}>
-                      {city.name}
+                    <MenuItem value={aircraft.name} key={index}>
+                      {aircraft.name}
                     </MenuItem>
                   );
                 })}

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PagesLayout from "./pages/PagesLayout";
 import Home from "./pages/Home";
@@ -17,8 +18,19 @@ import AddCity from "./pages/admin/AddCity";
 import AddAircraft from "./pages/admin/AddAircraft";
 import AddFlight from "./pages/admin/AddFlight";
 import BookedTickets from "./pages/admin/BookedTickets";
+import { useDispatch } from "react-redux";
+import { getAircrafts } from "./utilities/helpers";
+import { setAircrafts } from "./store/aircraftsSlice";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getAircrafts((data) => {
+      dispatch(setAircrafts(data));
+    });
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <Routes>

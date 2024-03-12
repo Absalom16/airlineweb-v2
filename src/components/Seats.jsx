@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import {
   Grid,
   Paper,
@@ -11,42 +12,13 @@ import {
   Badge,
 } from "@mui/material";
 
-const Seats = ({
-  seatData = [
-    {
-      tag: "A1",
-      occupied: "true",
-    },
-    {
-      tag: "A2",
-      occupied: "false",
-    },
-    {
-      tag: "A3",
-      occupied: "true",
-    },
-    {
-      tag: "A4",
-      occupied: "false",
-    },
-    {
-      tag: "A5",
-      occupied: "true",
-    },
-    {
-      tag: "A6",
-      occupied: "false",
-    },
-    {
-      tag: "A7",
-      occupied: "true",
-    },
-  ],
-  seats,
-  setSeats,
-}) => {
+const Seats = ({ seats, setSeats, classe, aircraftName }) => {
   const [open, setOpen] = useState(false);
   const [selectedSeats, setSelectedSeats] = useState([]);
+
+  const availableSeats = useSelector((store) =>
+    store.aircrafts.aircrafts.find((aircraft) => aircraft.name === aircraftName)
+  );
 
   const handleSeatClick = (selectedSeat) => {
     seats.push(selectedSeat);
@@ -82,9 +54,21 @@ const Seats = ({
             style={{ textAlign: "center" }}
           >
             <Card elevation={20}>
+              {classe === "first"
+                ? "first class"
+                : classe === "business"
+                ? "business class"
+                : classe === "economy"
+                ? "economy class"
+                : ""}
               <CardContent style={{ margin: "2%" }}>
                 <Grid container spacing={1}>
-                  {seatData.map((seat, index) => (
+                  {(classe === "first"
+                    ? availableSeats.firstClassSeats
+                    : classe === "business"
+                    ? availableSeats.businessClassSeats
+                    : availableSeats.economyClassSeats
+                  ).map((seat, index) => (
                     <Grid key={index} item xs={3}>
                       <Paper
                         elevation={3}

@@ -12,8 +12,17 @@ import {
   MenuItem,
 } from "@mui/material";
 import Seats from "./Seats";
+import {
+  clientAddPassenger,
+  clientCancelFlight,
+  clientChangeClass,
+  clientChangePassenger,
+  clientChangeSeats,
+  clientDeletePassenger,
+} from "../utilities/helpers";
+// import { UseSelector } from "react-redux";
 
-const ChangeFlightData = ({ open, close, changeData }) => {
+const ChangeFlightData = ({ open, close, changeData, flight }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [passengerQuantity, setPassengerQuantity] = useState(0);
   const [passengers, setPassengers] = useState("");
@@ -24,32 +33,35 @@ const ChangeFlightData = ({ open, close, changeData }) => {
   const [oldSeats, setOldSeats] = useState("");
   const [deletedPassenger, setDeletedPassenger] = useState("");
 
+  console.log(flight);
+
   let data = [];
 
   const addPassengerData = {
-    passengerQuantity,
-    passengers,
-    seats,
+    passengers: `${flight.passengers},${passengers}`,
+    seats: `${flight.seats},${seats.map((seat) => seat.tag).join(",")}`,
+    passengerQuantity:
+      Number(flight.passengerQuantity) + Number(passengerQuantity),
   };
 
   const changePassengerData = {
-    passengerQuantity,
-    oldPassengers,
-    newPassengers,
+    passengers: flight.passengers.replace(oldPassengers, newPassengers),
   };
-
   const changeClassData = {
-    newClass,
-    seats,
+    selectedClass: newClass,
+    seats: seats.map((seat) => seat.tag).join(","),
   };
 
   const changeSeatsData = {
-    oldSeats,
-    seats,
+    seats: flight.seats.replace(
+      oldSeats,
+      seats.map((seat) => seat.tag).join(",")
+    ),
   };
 
   const deletePassengerData = {
     deletedPassenger,
+    oldSeats,
   };
 
   const handleClose = () => {
@@ -63,13 +75,6 @@ const ChangeFlightData = ({ open, close, changeData }) => {
     setNewClass("");
     setOldSeats("");
     setDeletedPassenger("");
-    console.log(
-      addPassengerData,
-      changePassengerData,
-      changeClassData,
-      changeSeatsData,
-      deletePassengerData
-    );
   };
 
   if (changeData.type === "cancelFlight") {
@@ -89,6 +94,9 @@ const ChangeFlightData = ({ open, close, changeData }) => {
       {
         question: "Select seats for the passengers?",
       },
+      {
+        question: "Add the selected passengers?",
+      },
     ];
   } else if (changeData.type === "changePassenger") {
     data = [
@@ -101,6 +109,9 @@ const ChangeFlightData = ({ open, close, changeData }) => {
       {
         question: "Enter name of new passenger.",
       },
+      {
+        question: "Change the selected passenger?.",
+      },
     ];
   } else if (changeData.type === "changeClass") {
     data = [
@@ -109,6 +120,9 @@ const ChangeFlightData = ({ open, close, changeData }) => {
       },
       {
         question: "Select seat in the new class.",
+      },
+      {
+        question: "Change class?",
       },
     ];
   } else if (changeData.type === "changeSeats") {
@@ -119,11 +133,20 @@ const ChangeFlightData = ({ open, close, changeData }) => {
       {
         question: "Select the seat you want to change to.",
       },
+      {
+        question: "Change the selected seat.",
+      },
     ];
   } else if (changeData.type === "deletePassenger") {
     data = [
       {
         question: "Which passenger do you want to delete?",
+      },
+      {
+        question: "Which seat do you want to give up?",
+      },
+      {
+        question: "Delete the selected passenger?",
       },
     ];
   }
@@ -136,6 +159,75 @@ const ChangeFlightData = ({ open, close, changeData }) => {
     setCurrentSlide((prevSlide) =>
       prevSlide === 0 ? data.length - 1 : prevSlide - 1
     );
+  };
+
+  const handleCancelFlight = () => {
+    clientCancelFlight(
+      flight.id,
+      { status: "CANCELLED" },
+      { seats: flight.seats },
+      (data) => {
+        console.log(data);
+      }
+    );
+    close(false);
+  };
+
+  const handleAddPassenger = () => {
+    clientAddPassenger(flight.id, addPassengerData, (data) => {
+      console.log(data);
+    });
+    close(false);
+  };
+
+  const handleChangePassenger = () => {
+    clientChangePassenger(flight.id, changePassengerData, (data) => {
+      console.log(data);
+    });
+    close(false);
+  };
+
+  const handleChangeClass = () => {
+    clientChangeClass(
+      flight.id,
+      changeClassData,
+      {
+        seats: flight.seats,
+      },
+      (data) => {
+        console.log(data);
+      }
+    );
+    close(false);
+  };
+
+  const handleChangeSeats = () => {
+    clientChangeSeats(
+      flight.id,
+      changeSeatsData,
+      {
+        seats: oldSeats,
+      },
+      (data) => {
+        console.log(data);
+      }
+    );
+    close(false);
+  };
+
+  const handleDeletePassenger = () => {
+    clientDeletePassenger(
+      flight.id,
+      {
+        passengers: flight.passengers.replace(deletedPassenger, ""),
+        seats: flight.seats.replace(oldSeats, ""),
+      },
+      { seats: oldSeats },
+      (data) => {
+        console.log(data);
+      }
+    );
+    close(false);
   };
 
   return (
@@ -160,10 +252,7 @@ const ChangeFlightData = ({ open, close, changeData }) => {
                     type="submit"
                     variant="contained"
                     color="primary"
-                    onClick={() => {
-                      console.log();
-                      // close(false);
-                    }}
+                    onClick={handleCancelFlight}
                   >
                     Confirm
                   </Button>
@@ -199,8 +288,23 @@ const ChangeFlightData = ({ open, close, changeData }) => {
                 ) : changeData.type === "addPassenger" &&
                   data.indexOf(data[currentSlide]) + 1 === 3 ? (
                   <Box>
-                    <Seats seats={seats} setSeats={setSeats} />
+                    <Seats
+                      seats={seats}
+                      setSeats={setSeats}
+                      classe={flight.selectedClass}
+                      aircraftName={flight.aircraft}
+                    />
                   </Box>
+                ) : changeData.type === "addPassenger" &&
+                  data.indexOf(data[currentSlide]) + 1 === 4 ? (
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    onClick={handleAddPassenger}
+                  >
+                    Confirm
+                  </Button>
                 ) : changeData.type === "changePassenger" &&
                   data.indexOf(data[currentSlide]) + 1 === 1 ? (
                   <TextField
@@ -231,11 +335,14 @@ const ChangeFlightData = ({ open, close, changeData }) => {
                         setOldPassengers(e.target.value);
                       }}
                       fullWidth
-                     
                     >
-                      <MenuItem value={"first"}>joe</MenuItem>
-                      <MenuItem value={"business"}>mark</MenuItem>
-                      <MenuItem value={"economy"}>bob</MenuItem>
+                      {flight.passengers.split(",").map((passenger, index) => {
+                        return (
+                          <MenuItem value={passenger} key={index}>
+                            {passenger}
+                          </MenuItem>
+                        );
+                      })}
                     </Select>
                   </>
                 ) : changeData.type === "changePassenger" &&
@@ -253,6 +360,16 @@ const ChangeFlightData = ({ open, close, changeData }) => {
                     fullWidth
                     margin="normal"
                   />
+                ) : changeData.type === "changePassenger" &&
+                  data.indexOf(data[currentSlide]) + 1 === 4 ? (
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    onClick={handleChangePassenger}
+                  >
+                    Confirm
+                  </Button>
                 ) : changeData.type === "changeClass" &&
                   data.indexOf(data[currentSlide]) + 1 === 1 ? (
                   <>
@@ -267,16 +384,37 @@ const ChangeFlightData = ({ open, close, changeData }) => {
                       }}
                       fullWidth
                     >
-                      <MenuItem value={"first"}>First</MenuItem>
-                      <MenuItem value={"business"}>Business</MenuItem>
-                      <MenuItem value={"economy"}>Economy</MenuItem>
+                      {flight.selectedClass !== "first" && (
+                        <MenuItem value={"first"}>First</MenuItem>
+                      )}
+                      {flight.selectedClass !== "business" && (
+                        <MenuItem value={"business"}>Business</MenuItem>
+                      )}
+                      {flight.selectedClass !== "economy" && (
+                        <MenuItem value={"economy"}>Economy</MenuItem>
+                      )}
                     </Select>
                   </>
                 ) : changeData.type === "changeClass" &&
                   data.indexOf(data[currentSlide]) + 1 === 2 ? (
                   <Box>
-                    <Seats seats={seats} setSeats={setSeats} />
+                    <Seats
+                      seats={seats}
+                      setSeats={setSeats}
+                      classe={newClass}
+                      aircraftName={flight.aircraft}
+                    />
                   </Box>
+                ) : changeData.type === "changeClass" &&
+                  data.indexOf(data[currentSlide]) + 1 === 3 ? (
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    onClick={handleChangeClass}
+                  >
+                    Confirm
+                  </Button>
                 ) : changeData.type === "changeSeats" &&
                   data.indexOf(data[currentSlide]) + 1 === 1 ? (
                   <>
@@ -291,16 +429,35 @@ const ChangeFlightData = ({ open, close, changeData }) => {
                       }}
                       fullWidth
                     >
-                      <MenuItem value={"first"}>1</MenuItem>
-                      <MenuItem value={"business"}>2</MenuItem>
-                      <MenuItem value={"economy"}>3</MenuItem>
+                      {flight.seats.split(",").map((seat, index) => {
+                        return (
+                          <MenuItem value={seat} key={index}>
+                            {seat}
+                          </MenuItem>
+                        );
+                      })}
                     </Select>
                   </>
                 ) : changeData.type === "changeSeats" &&
                   data.indexOf(data[currentSlide]) + 1 === 2 ? (
                   <Box>
-                    <Seats seats={seats} setSeats={setSeats} />
+                    <Seats
+                      seats={seats}
+                      setSeats={setSeats}
+                      classe={flight.selectedClass}
+                      aircraftName={flight.aircraft}
+                    />
                   </Box>
+                ) : changeData.type === "changeSeats" &&
+                  data.indexOf(data[currentSlide]) + 1 === 3 ? (
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    onClick={handleChangeSeats}
+                  >
+                    Confirm
+                  </Button>
                 ) : changeData.type === "deletePassenger" &&
                   data.indexOf(data[currentSlide]) + 1 === 1 ? (
                   <>
@@ -317,11 +474,48 @@ const ChangeFlightData = ({ open, close, changeData }) => {
                       }}
                       fullWidth
                     >
-                      <MenuItem value={"first"}>joe</MenuItem>
-                      <MenuItem value={"business"}>mark</MenuItem>
-                      <MenuItem value={"economy"}>bob</MenuItem>
+                      {flight.passengers.split(",").map((passenger, index) => {
+                        return (
+                          <MenuItem value={passenger} key={index}>
+                            {passenger}
+                          </MenuItem>
+                        );
+                      })}
                     </Select>
                   </>
+                ) : changeData.type === "deletePassenger" &&
+                  data.indexOf(data[currentSlide]) + 1 === 2 ? (
+                  <>
+                    <InputLabel id="demo-simple-select-label">Seats</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={oldSeats}
+                      label="Passengers"
+                      onChange={(e) => {
+                        setOldSeats(e.target.value);
+                      }}
+                      fullWidth
+                    >
+                      {flight.seats.split(",").map((seat, index) => {
+                        return (
+                          <MenuItem value={seat} key={index}>
+                            {seat}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </>
+                ) : changeData.type === "deletePassenger" &&
+                  data.indexOf(data[currentSlide]) + 1 === 3 ? (
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    onClick={handleDeletePassenger}
+                  >
+                    Confirm
+                  </Button>
                 ) : (
                   ""
                 )}

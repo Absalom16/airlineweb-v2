@@ -17,7 +17,11 @@ export default function BasicModal({ children, open, close }) {
   const handleClose = () => close(false);
 
   return (
-    <Dialog open={open} onClose={handleClose} style={{ overflow: "hidden" }}>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      style={{ overflow: "hidden", textAlign: "center" }}
+    >
       <DialogTitle>info modal</DialogTitle>
       <DialogContent>{children}</DialogContent>
     </Dialog>

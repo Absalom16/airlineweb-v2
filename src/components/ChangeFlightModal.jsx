@@ -12,10 +12,10 @@ import ChangeFlightData from "./ChangeFlightData";
 const CancelFlightModal = ({
   open,
   close,
-  setSelectedFlight,
+  // setSelectedFlight,
   handleClose = () => {
     close(false);
-    setSelectedFlight("");
+    // setSelectedFlight("");
   },
   flight,
 }) => {
@@ -102,6 +102,7 @@ const CancelFlightModal = ({
             open={showModal}
             close={setShowModal}
             changeData={changeData}
+            flight={flight}
           />
         </Box>
       </DialogContent>
