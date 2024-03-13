@@ -18,89 +18,30 @@
   ],
   "bookedFlights": [
     {
-      "id": "126a",
-      "selectedClass": "first",
-      "passengerQuantity": 5,
-      "passengers": [
-        "mary",
-        "cynthia"
-      ],
-      "seats": [],
+      "id": "d66a",
+      "selectedClass": "business",
+      "passengerQuantity": 11,
+      "passengers": ",,",
+      "seats": "1E,1F,3H,3E,3F",
       "cost": 5000,
       "origin": "nairobi",
-      "destination": "kisumu",
-      "date": "2024-03-12",
+      "destination": "mombasa",
+      "date": "2024-03-15",
       "time": "12:00",
       "aircraft": "airbus3",
       "email": "testEmail@gmail.com",
       "username": "testUsername",
       "phoneNumber": "1234567890",
-      "flightNumber": "3814",
-      "status": "CANCELLED",
+      "flightNumber": "1418",
+      "status": "DUE",
       "classe": "business"
     },
     {
-      "id": "3d70",
+      "id": "e4aa",
       "selectedClass": "first",
       "passengerQuantity": "1",
-      "passengers": "tony",
-      "seats": "1A",
-      "cost": 5000,
-      "origin": "nairobi",
-      "destination": "mombasa",
-      "date": "2024-03-15",
-      "time": "12:00",
-      "email": "testEmail@gmail.com",
-      "username": "testUsername",
-      "phoneNumber": "1234567890",
-      "flightNumber": "1418",
-      "status": "DUE"
-    },
-    {
-      "id": "3d4c",
-      "selectedClass": "business",
-      "passengerQuantity": "2",
-      "passengers": [
-        "betcy"
-      ],
-      "seats": [
-        "2F"
-      ],
-      "cost": 6000,
-      "origin": "nairobi",
-      "destination": "mombasa",
-      "date": "2024-03-15",
-      "time": "12:00",
-      "email": "testEmail@gmail.com",
-      "username": "testUsername",
-      "phoneNumber": "1234567890",
-      "flightNumber": "1418",
-      "status": "DUE"
-    },
-    {
-      "id": "18aa",
-      "selectedClass": "first",
-      "passengerQuantity": "1",
-      "passengers": "absalom",
-      "seats": "1A",
-      "cost": 5000,
-      "origin": "nairobi",
-      "destination": "mombasa",
-      "date": "2024-03-15",
-      "time": "12:00",
-      "aircraft": "airbus3",
-      "email": "testEmail@gmail.com",
-      "username": "testUsername",
-      "phoneNumber": "1234567890",
-      "flightNumber": "1418",
-      "status": "DUE"
-    },
-    {
-      "id": "9404",
-      "selectedClass": "first",
-      "passengerQuantity": "1",
-      "passengers": "betcy",
-      "seats": "1B",
+      "passengers": "",
+      "seats": "",
       "cost": 5000,
       "origin": "nairobi",
       "destination": "mombasa",
@@ -139,11 +80,11 @@
       "firstClassSeats": [
         {
           "tag": "1A",
-          "occupied": true
+          "occupied": false
         },
         {
           "tag": "1B",
-          "occupied": true
+          "occupied": false
         },
         {
           "tag": "1C",
@@ -187,7 +128,7 @@
         },
         {
           "tag": "4A",
-          "occupied": true
+          "occupied": false
         },
         {
           "tag": "4B",
@@ -215,13 +156,13 @@
         },
         {
           "tag": "5D",
-          "occupied": true
+          "occupied": false
         }
       ],
       "businessClassSeats": [
         {
           "tag": "1E",
-          "occupied": false
+          "occupied": true
         },
         {
           "tag": "1F",
@@ -253,11 +194,11 @@
         },
         {
           "tag": "3E",
-          "occupied": false
+          "occupied": true
         },
         {
           "tag": "3F",
-          "occupied": false
+          "occupied": true
         },
         {
           "tag": "3G",
@@ -265,7 +206,7 @@
         },
         {
           "tag": "3H",
-          "occupied": false
+          "occupied": true
         },
         {
           "tag": "4E",

@@ -67,19 +67,27 @@ const Seats = ({ seats, setSeats, classe, aircraftName }) => {
                     ? availableSeats.firstClassSeats
                     : classe === "business"
                     ? availableSeats.businessClassSeats
-                    : availableSeats.economyClassSeats
+                    : classe === "economy"
+                    ? availableSeats.economyClassSeats
+                    : []
                   ).map((seat, index) => (
                     <Grid key={index} item xs={3}>
                       <Paper
                         elevation={3}
+                        disabled={seat.occupied == true}
                         style={{
                           padding: 10,
                           textAlign: "center",
-                          cursor: "pointer",
+                          cursor:
+                            seat.occupied == true ? "not-allowed" : "pointer",
                           backgroundColor:
                             seat.occupied == true ? "red" : "green",
                         }}
-                        onClick={() => handleSeatClick(seat)}
+                        onClick={
+                          seat.occupied == true
+                            ? null
+                            : () => handleSeatClick(seat)
+                        }
                       >
                         {seat.tag}
 

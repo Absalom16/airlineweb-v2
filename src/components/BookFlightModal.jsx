@@ -27,8 +27,9 @@ const BookFlightModal = ({
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedClass, setSelectedClass] = useState("");
   const [passengerQuantity, setPassengerQuantity] = useState(0);
-  const [passengers, setPassengers] = useState([]);
+  const [passengers, setPassengers] = useState("");
   const [seats, setSeats] = useState([]);
+  const [errors, setErrors] = useState([]);
 
   const cost =
     (selectedClass === "first"
@@ -57,7 +58,7 @@ const BookFlightModal = ({
   const bookData = {
     selectedClass,
     passengerQuantity,
-    passengers: passengers.join(","),
+    passengers: passengers,
     seats: seats.map((obj) => obj.tag).join(","),
     cost,
     origin: flight.origin,
@@ -83,10 +84,24 @@ const BookFlightModal = ({
   };
 
   const handleSubmit = () => {
-    bookFlight(bookData, (data) => {
-      console.log(data);
-      close(false);
-    });
+    if (Number(passengerQuantity) !== passengers?.split(",").length) {
+      setErrors([
+        ...errors,
+        "The passenger quantity does not match the entered passengers.",
+      ]);
+    } else if (selectedClass === "") {
+      setErrors([...errors, "Class cannot be null."]);
+    } else if (seats.length !== passengers.split(",").length) {
+      setErrors([
+        ...errors,
+        "The seats quantity does not match passenger quantity.",
+      ]);
+    } else {
+      bookFlight(bookData, (data) => {
+        console.log(data);
+        close(false);
+      });
+    }
   };
 
   return (
@@ -105,6 +120,7 @@ const BookFlightModal = ({
                 value={selectedClass}
                 label="Class"
                 onChange={(e) => {
+                  setErrors([]);
                   setSelectedClass(e.target.value);
                 }}
                 fullWidth
@@ -122,6 +138,7 @@ const BookFlightModal = ({
               variant="outlined"
               value={passengerQuantity}
               onChange={(e) => {
+                setErrors([]);
                 setPassengerQuantity(e.target.value);
               }}
               fullWidth
@@ -136,6 +153,7 @@ const BookFlightModal = ({
               value={passengers}
               placeholder="eg. joe, mark, bob"
               onChange={(e) => {
+                setErrors([]);
                 setPassengers(e.target.value);
               }}
               fullWidth
@@ -159,6 +177,10 @@ const BookFlightModal = ({
             >
               Confirm
             </Button>
+          )}
+          <br />
+          {errors.length > 0 && (
+            <span style={{ color: "red" }}>{errors.join(",")}</span>
           )}
         </div>
         {/* Buttons for navigating slides */}

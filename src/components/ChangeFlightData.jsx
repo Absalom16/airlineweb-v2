@@ -32,6 +32,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
   const [newClass, setNewClass] = useState("");
   const [oldSeats, setOldSeats] = useState("");
   const [deletedPassenger, setDeletedPassenger] = useState("");
+  const [errors, setErrors] = useState([]);
 
   console.log(flight);
 
@@ -64,8 +65,12 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
   const deletePassengerData = {
     passengers: flight.passengers
       .split(",")
-      .filter((passenger) => passenger !== deletedPassenger),
-    seats: flight.seats.split(",").filter((seat) => seat !== oldSeats),
+      .filter((passenger) => passenger !== deletedPassenger)
+      .join(","),
+    seats: flight.seats
+      .split(",")
+      .filter((seat) => seat !== oldSeats)
+      .join(","),
   };
 
   const handleClose = () => {
@@ -79,6 +84,48 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
     setNewClass("");
     setOldSeats("");
     setDeletedPassenger("");
+    setErrors([]);
+  };
+
+  const handleErrors = (callback) => {
+    if (
+      Number(passengerQuantity) !== passengers.split(",").length &&
+      changeData.type === "addPassenger"
+    ) {
+      setErrors([
+        ...errors,
+        "The passenger quantity does not match number of added passengers.",
+      ]);
+    } else if (
+      seats.length !== passengers.split(",").length &&
+      changeData.type === "addPassenger"
+    ) {
+      setErrors([
+        ...errors,
+        "The seats quantity does not match number of added passengers.",
+      ]);
+    } else if (
+      oldPassengers.split(",").length !== newPassengers.split(",").length &&
+      changeData.type === "changePassenger"
+    ) {
+      setErrors([...errors, "The passenger quantities do not match."]);
+    } else if (
+      seats.length !== flight.passengers.split(",").length &&
+      changeData.type === "changeClass"
+    ) {
+      setErrors([
+        ...errors,
+        "The seats quantity does not match number of passengers.",
+      ]);
+    } else if (
+      oldSeats.split(",").length !== seats.length &&
+      changeData.type === "changeSeats"
+    ) {
+      console.log(oldSeats, seats);
+      setErrors([...errors, "The seats quantities do not match."]);
+    } else {
+      callback();
+    }
   };
 
   if (changeData.type === "cancelFlight") {
@@ -182,65 +229,75 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
   };
 
   const handleAddPassenger = () => {
-    clientAddPassenger(flight.id, addPassengerData, (data) => {
-      console.log(data);
+    handleErrors(() => {
+      clientAddPassenger(flight.id, addPassengerData, (data) => {
+        console.log(data);
+      });
+      close(false);
     });
-    close(false);
   };
 
   const handleChangePassenger = () => {
-    clientChangePassenger(flight.id, changePassengerData, (data) => {
-      console.log(data);
+    handleErrors(() => {
+      clientChangePassenger(flight.id, changePassengerData, (data) => {
+        console.log(data);
+      });
+      close(false);
     });
-    close(false);
   };
 
   const handleChangeClass = () => {
-    clientChangeClass(
-      flight.id,
-      changeClassData,
-      {
-        seats: flight.seats,
-        classe: flight.selectedClass,
-        aircraft: flight.aircraft,
-      },
-      (data) => {
-        console.log(data);
-      }
-    );
-    close(false);
+    handleErrors(() => {
+      clientChangeClass(
+        flight.id,
+        changeClassData,
+        {
+          seats: flight.seats,
+          classe: flight.selectedClass,
+          aircraft: flight.aircraft,
+        },
+        (data) => {
+          console.log(data);
+        }
+      );
+      close(false);
+    });
   };
 
   const handleChangeSeats = () => {
-    clientChangeSeats(
-      flight.id,
-      changeSeatsData,
-      {
-        seats: oldSeats,
-        aircraft: flight.aircraft,
-        classe: flight.selectedClass,
-      },
-      (data) => {
-        console.log(data);
-      }
-    );
-    close(false);
+    handleErrors(() => {
+      clientChangeSeats(
+        flight.id,
+        changeSeatsData,
+        {
+          seats: oldSeats,
+          aircraft: flight.aircraft,
+          classe: flight.selectedClass,
+        },
+        (data) => {
+          console.log(data);
+        }
+      );
+      close(false);
+    });
   };
 
   const handleDeletePassenger = () => {
-    clientDeletePassenger(
-      flight.id,
-      deletePassengerData,
-      {
-        seats: oldSeats,
-        aircraft: flight.aircraft,
-        classe: flight.selectedClass,
-      },
-      (data) => {
-        console.log(data);
-      }
-    );
-    close(false);
+    handleErrors(() => {
+      clientDeletePassenger(
+        flight.id,
+        deletePassengerData,
+        {
+          seats: oldSeats,
+          aircraft: flight.aircraft,
+          classe: flight.selectedClass,
+        },
+        (data) => {
+          console.log(data);
+        }
+      );
+      close(false);
+    });
   };
 
   return (
@@ -531,6 +588,10 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
                   </Button>
                 ) : (
                   ""
+                )}
+                <br />
+                {errors.length > 0 && (
+                  <span style={{ color: "red" }}>{errors.join(",")}</span>
                 )}
               </CardContent>
               {open && data.indexOf(data[currentSlide]) != 0 && (
