@@ -57,7 +57,7 @@ const BookFlightModal = ({
   const bookData = {
     selectedClass,
     passengerQuantity,
-    passengers,
+    passengers: passengers.join(","),
     seats: seats.map((obj) => obj.tag).join(","),
     cost,
     origin: flight.origin,

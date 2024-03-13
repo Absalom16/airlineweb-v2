@@ -42,6 +42,8 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
     seats: `${flight.seats},${seats.map((seat) => seat.tag).join(",")}`,
     passengerQuantity:
       Number(flight.passengerQuantity) + Number(passengerQuantity),
+    aircraft: flight.aircraft,
+    classe: flight.selectedClass,
   };
 
   const changePassengerData = {
@@ -167,7 +169,11 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
     clientCancelFlight(
       flight.id,
       { status: "CANCELLED" },
-      { seats: flight.seats },
+      {
+        seats: flight.seats,
+        classe: flight.selectedClass,
+        aircraft: flight.aircraft,
+      },
       (data) => {
         console.log(data);
       }
@@ -195,6 +201,8 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
       changeClassData,
       {
         seats: flight.seats,
+        classe: flight.selectedClass,
+        aircraft: flight.aircraft,
       },
       (data) => {
         console.log(data);
@@ -209,6 +217,8 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
       changeSeatsData,
       {
         seats: oldSeats,
+        aircraft: flight.aircraft,
+        classe: flight.selectedClass,
       },
       (data) => {
         console.log(data);
@@ -221,7 +231,11 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
     clientDeletePassenger(
       flight.id,
       deletePassengerData,
-      { seats: oldSeats },
+      {
+        seats: oldSeats,
+        aircraft: flight.aircraft,
+        classe: flight.selectedClass,
+      },
       (data) => {
         console.log(data);
       }

@@ -19,10 +19,13 @@
   "bookedFlights": [
     {
       "id": "126a",
-      "selectedClass": "business",
-      "passengerQuantity": 4,
-      "passengers": "jack,mary,,cynthia",
-      "seats": "3G,1E,,2H",
+      "selectedClass": "first",
+      "passengerQuantity": 5,
+      "passengers": [
+        "mary",
+        "cynthia"
+      ],
+      "seats": [],
       "cost": 5000,
       "origin": "nairobi",
       "destination": "kisumu",
@@ -33,7 +36,8 @@
       "username": "testUsername",
       "phoneNumber": "1234567890",
       "flightNumber": "3814",
-      "status": "CANCELLED"
+      "status": "CANCELLED",
+      "classe": "business"
     },
     {
       "id": "3d70",
@@ -72,6 +76,42 @@
       "phoneNumber": "1234567890",
       "flightNumber": "1418",
       "status": "DUE"
+    },
+    {
+      "id": "18aa",
+      "selectedClass": "first",
+      "passengerQuantity": "1",
+      "passengers": "absalom",
+      "seats": "1A",
+      "cost": 5000,
+      "origin": "nairobi",
+      "destination": "mombasa",
+      "date": "2024-03-15",
+      "time": "12:00",
+      "aircraft": "airbus3",
+      "email": "testEmail@gmail.com",
+      "username": "testUsername",
+      "phoneNumber": "1234567890",
+      "flightNumber": "1418",
+      "status": "DUE"
+    },
+    {
+      "id": "9404",
+      "selectedClass": "first",
+      "passengerQuantity": "1",
+      "passengers": "betcy",
+      "seats": "1B",
+      "cost": 5000,
+      "origin": "nairobi",
+      "destination": "mombasa",
+      "date": "2024-03-15",
+      "time": "12:00",
+      "aircraft": "airbus3",
+      "email": "testEmail@gmail.com",
+      "username": "testUsername",
+      "phoneNumber": "1234567890",
+      "flightNumber": "1418",
+      "status": "DUE"
     }
   ],
   "cities": [
@@ -99,11 +139,11 @@
       "firstClassSeats": [
         {
           "tag": "1A",
-          "occupied": false
+          "occupied": true
         },
         {
           "tag": "1B",
-          "occupied": false
+          "occupied": true
         },
         {
           "tag": "1C",
@@ -147,7 +187,7 @@
         },
         {
           "tag": "4A",
-          "occupied": false
+          "occupied": true
         },
         {
           "tag": "4B",
@@ -175,7 +215,7 @@
         },
         {
           "tag": "5D",
-          "occupied": false
+          "occupied": true
         }
       ],
       "businessClassSeats": [
@@ -185,7 +225,7 @@
         },
         {
           "tag": "1F",
-          "occupied": false
+          "occupied": true
         },
         {
           "tag": "1G",

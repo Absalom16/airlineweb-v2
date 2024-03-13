@@ -132,6 +132,8 @@ export function bookFlight(data, callback) {
     .catch((err) => {
       console.error("Error", err);
     });
+
+  updateSeatsOccupied(data.aircraft, data.selectedClass, data.seats.split(","));
 }
 
 export function getBookedFlights(data, callback) {
@@ -234,6 +236,8 @@ export function clientCancelFlight(id, newData, oldData, callback) {
     .catch((err) => {
       console.error("Error", err);
     });
+
+  updateSeatsVacant(oldData.aircraft, oldData.classe, oldData.seats.split(","));
 }
 
 export function clientAddPassenger(id, newData, callback) {
@@ -253,6 +257,12 @@ export function clientAddPassenger(id, newData, callback) {
     .catch((err) => {
       console.error("Error", err);
     });
+
+  updateSeatsOccupied(
+    newData.aircraft,
+    newData.classe,
+    newData.seats.split(",")
+  );
 }
 
 export function clientChangePassenger(id, newData, callback) {
@@ -274,7 +284,7 @@ export function clientChangePassenger(id, newData, callback) {
     });
 }
 
-export function clientChangeClass(id, newData, oldaData, callback) {
+export function clientChangeClass(id, newData, oldData, callback) {
   fetch(`${url}/bookedFlights/${id}`, {
     method: "PATCH",
     headers: {
@@ -291,9 +301,23 @@ export function clientChangeClass(id, newData, oldaData, callback) {
     .catch((err) => {
       console.error("Error", err);
     });
+
+  updateSeatsOccupied(
+    oldData.aircraft,
+    newData.selectedClass,
+    newData.seats.split(","),
+    () => {
+      updateSeatsVacant(
+        oldData.aircraft,
+        oldData.classe,
+        oldData.seats.split(",")
+      );
+    }
+  );
 }
 
 export function clientChangeSeats(id, newData, oldData, callback) {
+  // console.log(newData);
   fetch(`${url}/bookedFlights/${id}`, {
     method: "PATCH",
     headers: {
@@ -310,6 +334,19 @@ export function clientChangeSeats(id, newData, oldData, callback) {
     .catch((err) => {
       console.error("Error", err);
     });
+
+  updateSeatsOccupied(
+    oldData.aircraft,
+    oldData.classe,
+    newData.seats.split(","),
+    () => {
+      updateSeatsVacant(
+        oldData.aircraft,
+        oldData.classe,
+        oldData.seats.split(",")
+      );
+    }
+  );
 }
 
 export function clientDeletePassenger(id, newData, oldData, callback) {
@@ -325,6 +362,132 @@ export function clientDeletePassenger(id, newData, oldData, callback) {
     })
     .then((result) => {
       callback(result);
+    })
+    .catch((err) => {
+      console.error("Error", err);
+    });
+  updateSeatsVacant(oldData.aircraft, oldData.classe, oldData.seats.split(","));
+}
+
+export function updateSeatsOccupied(name, classe, tags, callback) {
+  fetch(`${url}/aircrafts?name=${name}`)
+    .then((res) => {
+      return res.json();
+    })
+    .then((result) => {
+      let seats;
+      if (classe == "first") {
+        seats = result[0].firstClassSeats;
+      } else if (classe == "business") {
+        seats = result[0].businessClassSeats;
+      } else if (classe == "economy") {
+        seats = result[0].economyClassSeats;
+      }
+
+      //updating newly occupied seats
+      const arr = [];
+      tags.forEach((tag) => {
+        seats.forEach((seat) => {
+          if (seat.tag == tag) {
+            seat.occupied = true;
+          }
+          if (arr.includes(seat)) {
+            return;
+          }
+          arr.push(seat);
+        });
+      });
+
+      let updateData;
+      if (classe == "first") {
+        updateData = { firstClassSeats: arr };
+      } else if (classe == "business") {
+        updateData = { businessClassSeats: arr };
+      } else if (classe == "economy") {
+        updateData = { economyClassSeats: arr };
+      }
+
+      //updating data in db
+      fetch(`${url}/aircrafts/${result[0].id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateData),
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          if (callback) {
+            callback();
+          }
+          console.log(data);
+        })
+        .catch((err) => {
+          console.error("Error", err);
+        });
+    })
+    .catch((err) => {
+      console.error("Error", err);
+    });
+}
+
+export function updateSeatsVacant(name, classe, tags) {
+  fetch(`${url}/aircrafts?name=${name}`)
+    .then((res) => {
+      return res.json();
+    })
+    .then((result) => {
+      let seats;
+      if (classe == "first") {
+        seats = result[0].firstClassSeats;
+      } else if (classe == "business") {
+        seats = result[0].businessClassSeats;
+      } else if (classe == "economy") {
+        seats = result[0].economyClassSeats;
+      }
+
+      //updating newly occupied seats
+      const arr = [];
+      tags.forEach((tag) => {
+        seats.forEach((seat) => {
+          if (seat.tag == tag) {
+            seat.occupied = false;
+          }
+          if (arr.includes(seat)) {
+            return;
+          }
+          arr.push(seat);
+        });
+      });
+
+      let updateData;
+      if (classe == "first") {
+        updateData = { firstClassSeats: arr };
+      } else if (classe == "business") {
+        updateData = { businessClassSeats: arr };
+      } else if (classe == "economy") {
+        updateData = { economyClassSeats: arr };
+      }
+
+      //updating data in db
+      fetch(`${url}/aircrafts/${result[0].id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateData),
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => {
+          console.error("Error", err);
+        });
     })
     .catch((err) => {
       console.error("Error", err);

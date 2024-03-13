@@ -77,7 +77,7 @@ const Seats = ({ seats, setSeats, classe, aircraftName }) => {
                           textAlign: "center",
                           cursor: "pointer",
                           backgroundColor:
-                            seat.occupied == "true" ? "red" : "green",
+                            seat.occupied == true ? "red" : "green",
                         }}
                         onClick={() => handleSeatClick(seat)}
                       >
