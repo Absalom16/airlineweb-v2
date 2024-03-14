@@ -19,6 +19,7 @@ export default function BookedFlights() {
     { id: "aircraft", label: "Aircraft", minWidth: 170 },
     { id: "passengers", label: "Passengers", minWidth: 170 },
     { id: "seats", label: "Seats", minWidth: 170 },
+    { id: "status", label: "status", minWidth: 170 },
   ];
 
   useEffect(() => {

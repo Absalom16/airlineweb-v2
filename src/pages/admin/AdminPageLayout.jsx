@@ -19,7 +19,7 @@ const AdminPageLayout = () => {
         {/* Content for left section */}
         <div
           style={{
-            height: "80vh",
+            height: "100%",
             backgroundColor: "#f0f0f0",
           }}
         >
@@ -38,7 +38,7 @@ const AdminPageLayout = () => {
         {/* Content for right section */}
         <div
           style={{
-            height: "80vh",
+            height: "100%",
             backgroundColor: "#d3d3d3",
             overflow: "auto",
             width: "100%",

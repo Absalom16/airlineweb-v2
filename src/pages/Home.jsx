@@ -6,37 +6,34 @@ import {
   useTheme,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Home = () => {
-  // const isLoggedIn = useSelector((store) => store.user.authDetails.isLoggedIn);
+  const { isLoggedIn, rank } = useSelector((store) => store.user.user);
   const navigate = useNavigate();
 
   const handleClick = () => {
-    // if (isLoggedIn) {
-    //   navigate("/chat");
-    // } else {
-    //   navigate("/login");
-    // }
-    navigate("client");
+    if (isLoggedIn && rank === "ADMIN") {
+      navigate("/admin");
+    } else if (isLoggedIn && rank === "CLIENT") {
+      navigate("/client");
+    } else {
+      navigate("/login");
+    }
   };
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Container
-      component="main"
-      maxWidth="md"
-      // sx={{ textAlign: "center", paddingTop: "40px" }}
-    >
+    <Container component="main" maxWidth="md">
       <>
         <Typography
           variant="h4"
           gutterBottom
           sx={{ fontSize: isSmallScreen ? "2rem" : "3rem" }}
         >
-          Welcome to kenyaAirways! Your #1 trusted airline.
+          Pride Of Africa.
         </Typography>
         <Typography
           variant="body1"
@@ -52,7 +49,8 @@ const Home = () => {
         </Typography>
         <Button
           variant="contained"
-          style={{ backgroundColor: "#05445E", color: "white" }}
+          color="primary"
+          style={{ color: "white" }}
           onClick={handleClick}
         >
           Go to the app
