@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import FlightsData from "../../components/flightsData";
 import { getBookedFlights } from "../../utilities/helpers";
+import { useSelector } from "react-redux";
 
 export default function BookedFlights() {
   const [rows, setRows] = useState([]);
   const title = "Booked Flights";
+  const { email } = useSelector((store) => store.user.user);
 
   const columns = [
     { id: "flightNumber", label: "Flight Number", minWidth: 170 },
@@ -20,14 +22,10 @@ export default function BookedFlights() {
   ];
 
   useEffect(() => {
-    getBookedFlights({ email: "testEmail@gmail.com" }, (bookedFlights) => {
-      // bookedFlights.forEach((flight) => {
-      //   flight.seats = flight.seats
-      // });
-
+    getBookedFlights({ email: email }, (bookedFlights) => {
       setRows(bookedFlights);
     });
-  }, []);
+  }, [email]);
 
   return (
     <div>

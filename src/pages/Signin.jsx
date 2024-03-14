@@ -9,8 +9,11 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
-import { signin } from "../utilities/helpers.js";
+import { signin, getBookedFlights } from "../utilities/helpers.js";
+import { setUser } from "../store/userSlice.js";
+import { setUserFlights } from "../store/userFlightsSlice.js";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
@@ -25,6 +28,7 @@ const Signin = () => {
   };
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -52,10 +56,15 @@ const Signin = () => {
         setServerError("User does not exist.");
         setLoading(false);
       } else {
+        data.isLoggedIn = true;
+        dispatch(setUser(data));
         setLoading(false);
-        if (data[0].rank == "ADMIN") {
+        if (data.rank == "ADMIN") {
           navigate("/admin");
         } else {
+          getBookedFlights({ email: email }, (data) => {
+            dispatch(setUserFlights(data));
+          });
           navigate("/client");
         }
       }

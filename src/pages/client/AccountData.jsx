@@ -10,15 +10,23 @@ import {
   Card,
   CardContent,
 } from "@mui/material";
+import { useSelector } from "react-redux";
 
-const AccountData = ({
-  name = "absalom",
-  email = "absalomlihasi@gmail.com",
-  phoneNumber = "0714022687",
-  dueFlights = 2,
-  completedFlights = 10,
-  canceledFlights = 5,
-}) => {
+const AccountData = () => {
+  const { email, username, phoneNumber } = useSelector(
+    (store) => store.user.user
+  );
+
+  const flights = useSelector((store) => store.userFlights.userFlights);
+
+  const dueFlights = flights.filter((flight) => flight.status === "DUE");
+  const completedFlights = flights.filter(
+    (flight) => flight.status === "COMPLETED"
+  );
+  const cancelledFlights = flights.filter(
+    (flight) => flight.status === "CANCELLED"
+  );
+
   return (
     <Container
       component="main"
@@ -54,7 +62,7 @@ const AccountData = ({
                   >
                     <strong>Name</strong>
                   </TableCell>
-                  <TableCell>{name}</TableCell>
+                  <TableCell>{username}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell
@@ -78,7 +86,7 @@ const AccountData = ({
                   >
                     <strong>Due Flights</strong>
                   </TableCell>
-                  <TableCell>{dueFlights}</TableCell>
+                  <TableCell>{dueFlights.length}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell
@@ -86,7 +94,7 @@ const AccountData = ({
                   >
                     <strong>Completed Flights</strong>
                   </TableCell>
-                  <TableCell>{completedFlights}</TableCell>
+                  <TableCell>{completedFlights.length}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell
@@ -94,7 +102,7 @@ const AccountData = ({
                   >
                     <strong>Canceled Flights</strong>
                   </TableCell>
-                  <TableCell>{canceledFlights}</TableCell>
+                  <TableCell>{cancelledFlights.length}</TableCell>
                 </TableRow>
               </TableBody>
             </Table>

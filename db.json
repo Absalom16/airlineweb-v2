@@ -51,39 +51,20 @@
   ],
   "bookedFlights": [
     {
-      "id": "d66a",
-      "selectedClass": "business",
-      "passengerQuantity": 11,
-      "passengers": ",,",
-      "seats": "1E,1F,3H,3E,3F",
-      "cost": 5000,
-      "origin": "nairobi",
-      "destination": "mombasa",
-      "date": "2024-03-15",
-      "time": "12:00",
-      "aircraft": "airbus3",
-      "email": "testEmail@gmail.com",
-      "username": "testUsername",
-      "phoneNumber": "1234567890",
-      "flightNumber": "1418",
-      "status": "DUE",
-      "classe": "business"
-    },
-    {
-      "id": "e4aa",
+      "id": "3e4a",
       "selectedClass": "first",
       "passengerQuantity": "1",
-      "passengers": "",
-      "seats": "",
+      "passengers": "suzette",
+      "seats": "1B",
       "cost": 5000,
       "origin": "nairobi",
       "destination": "mombasa",
       "date": "2024-03-15",
       "time": "12:00",
       "aircraft": "airbus3",
-      "email": "testEmail@gmail.com",
-      "username": "testUsername",
-      "phoneNumber": "1234567890",
+      "email": "betcy@gmail.com",
+      "username": "betcy",
+      "phoneNumber": "0714022687",
       "flightNumber": "1418",
       "status": "DUE"
     }
@@ -117,7 +98,7 @@
         },
         {
           "tag": "1B",
-          "occupied": false
+          "occupied": true
         },
         {
           "tag": "1C",

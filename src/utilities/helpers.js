@@ -7,7 +7,7 @@ export function signin(data, callback) {
       return res.json();
     })
     .then((result) => {
-      const user = result.filter(
+      const [user] = result.filter(
         (user) => user.email == data.email && user.password == data.password
       );
       callback(user);

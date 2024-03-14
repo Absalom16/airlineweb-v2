@@ -10,26 +10,21 @@ import {
   TextField,
   Box,
 } from "@mui/material";
-// import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { useSelector } from "react-redux";
 import Seats from "./Seats";
 import { bookFlight } from "../utilities/helpers";
 
-const BookFlightModal = ({
-  open,
-  close,
-  flight,
-  // setSelectedFlight,
-  handleClose = () => {
-    close(false);
-    // setSelectedFlight("");
-  },
-}) => {
+const BookFlightModal = ({ open, close, flight }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedClass, setSelectedClass] = useState("");
   const [passengerQuantity, setPassengerQuantity] = useState(0);
   const [passengers, setPassengers] = useState("");
   const [seats, setSeats] = useState([]);
   const [errors, setErrors] = useState([]);
+
+  const { email, username, phoneNumber } = useSelector(
+    (store) => store.user.user
+  );
 
   const cost =
     (selectedClass === "first"
@@ -66,9 +61,9 @@ const BookFlightModal = ({
     date: flight.departureDate,
     time: flight.departureTime,
     aircraft: flight.aircraft,
-    email: "testEmail@gmail.com",
-    username: "testUsername",
-    phoneNumber: "1234567890",
+    email: email,
+    username: username,
+    phoneNumber: phoneNumber,
     flightNumber: flight.id,
     status: "DUE",
   };
@@ -81,6 +76,11 @@ const BookFlightModal = ({
     setCurrentSlide((prevSlide) =>
       prevSlide === 0 ? data.length - 1 : prevSlide - 1
     );
+  };
+
+  const handleClose = () => {
+    close(false);
+    // setSelectedFlight("");
   };
 
   const handleSubmit = () => {
