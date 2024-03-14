@@ -101,6 +101,7 @@ const AddAircraft = () => {
               value={formData.firstClassCapacity}
               error={!!errors.firstClassCapacity}
               helperText={errors.firstClassCapacity}
+              inputProps={{ min: 1 }}
               onChange={handleChange}
               fullWidth
               margin="normal"
@@ -112,6 +113,7 @@ const AddAircraft = () => {
               value={formData.businessClassCapacity}
               error={!!errors.businessClassCapacity}
               helperText={errors.businessClassCapacity}
+              inputProps={{ min: 1 }}
               onChange={handleChange}
               fullWidth
               margin="normal"
@@ -123,6 +125,7 @@ const AddAircraft = () => {
               value={formData.economyClassCapacity}
               error={!!errors.economyClassCapacity}
               helperText={errors.economyClassCapacity}
+              inputProps={{ min: 1 }}
               onChange={handleChange}
               fullWidth
               margin="normal"

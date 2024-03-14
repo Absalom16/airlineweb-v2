@@ -251,6 +251,7 @@ const AddFlight = () => {
               value={formData.firstClassCost}
               error={!!errors.firstClassCost}
               helperText={errors.firstClassCost}
+              inputProps={{ min: 1 }}
               onChange={handleChange}
               fullWidth
               margin="normal"
@@ -262,6 +263,7 @@ const AddFlight = () => {
               value={formData.businessClassCost}
               error={!!errors.businessClassCost}
               helperText={errors.businessClassCost}
+              inputProps={{ min: 1 }}
               onChange={handleChange}
               fullWidth
               margin="normal"
@@ -273,6 +275,7 @@ const AddFlight = () => {
               value={formData.economyClassCost}
               error={!!errors.economyClassCost}
               helperText={errors.economyClassCost}
+              inputProps={{ min: 1 }}
               onChange={handleChange}
               fullWidth
               margin="normal"

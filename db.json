@@ -46,7 +46,7 @@
       "firstClassCost": "5000",
       "businessClassCost": "3000",
       "economyClassCost": "1000",
-      "status": "ACTIVE"
+      "status": "CANCELLED"
     },
     {
       "id": "b0e8",
@@ -60,7 +60,7 @@
       "firstClassCost": "10000",
       "businessClassCost": "5000",
       "economyClassCost": "2000",
-      "status": "ACTIVE"
+      "status": "CANCELLED"
     },
     {
       "id": "c009",
@@ -74,7 +74,7 @@
       "firstClassCost": "10000",
       "businessClassCost": "5000",
       "economyClassCost": "1000",
-      "status": "ACTIVE"
+      "status": "CANCELLED"
     },
     {
       "id": "2e44",
@@ -103,6 +103,20 @@
       "businessClassCost": "3000",
       "economyClassCost": "1000",
       "status": "ACTIVE"
+    },
+    {
+      "id": "c938",
+      "origin": "johanessburg",
+      "destination": "nairobi",
+      "departureDate": "2024-03-14",
+      "arrivalDate": "2024-03-28",
+      "departureTime": "12:00",
+      "arrivalTime": "16:00",
+      "aircraft": "airbus1",
+      "firstClassCost": "5000",
+      "businessClassCost": "3000",
+      "economyClassCost": "1000",
+      "status": "CANCELLED"
     }
   ],
   "bookedFlights": [
@@ -123,6 +137,61 @@
       "phoneNumber": "0714022687",
       "flightNumber": "1418",
       "status": "DUE"
+    },
+    {
+      "id": "e5b4",
+      "selectedClass": "first",
+      "passengerQuantity": "1",
+      "passengers": "rawlings",
+      "seats": "2D",
+      "cost": 5000,
+      "origin": "johanessburg",
+      "destination": "nairobi",
+      "date": "2024-03-14",
+      "time": "12:00",
+      "aircraft": "airbus1",
+      "email": "betcy@gmail.com",
+      "username": "betcy",
+      "phoneNumber": "0714022687",
+      "flightNumber": "c938",
+      "status": "DUE"
+    },
+    {
+      "id": "16b4",
+      "selectedClass": "first",
+      "passengerQuantity": "1",
+      "passengers": "jack",
+      "seats": "3B",
+      "cost": 5000,
+      "origin": "johanessburg",
+      "destination": "nairobi",
+      "date": "2024-03-14",
+      "time": "12:00",
+      "aircraft": "airbus1",
+      "email": "betcy@gmail.com",
+      "username": "betcy",
+      "phoneNumber": "0714022687",
+      "flightNumber": "c938",
+      "status": "DUE"
+    },
+    {
+      "id": "117e",
+      "selectedClass": "economy",
+      "passengerQuantity": 3,
+      "passengers": "betcy",
+      "seats": "3J",
+      "cost": 5000,
+      "origin": "johanessburg",
+      "destination": "nairobi",
+      "date": "2024-03-14",
+      "time": "12:00",
+      "aircraft": "airbus1",
+      "email": "betcy@gmail.com",
+      "username": "betcy",
+      "phoneNumber": "0714022687",
+      "flightNumber": "c938",
+      "status": "CANCELLED",
+      "classe": "first"
     }
   ],
   "cities": [
@@ -442,7 +511,7 @@
         },
         {
           "tag": "2D",
-          "occupied": false
+          "occupied": true
         },
         {
           "tag": "3A",
@@ -450,7 +519,7 @@
         },
         {
           "tag": "3B",
-          "occupied": false
+          "occupied": true
         }
       ],
       "businessClassSeats": [
@@ -534,7 +603,7 @@
         },
         {
           "tag": "3J",
-          "occupied": false
+          "occupied": true
         }
       ]
     }

@@ -10,6 +10,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  CircularProgress,
 } from "@mui/material";
 import Seats from "./Seats";
 import {
@@ -24,7 +25,7 @@ import {
 
 const ChangeFlightData = ({ open, close, changeData, flight }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [passengerQuantity, setPassengerQuantity] = useState(0);
+  const [passengerQuantity, setPassengerQuantity] = useState(1);
   const [passengers, setPassengers] = useState("");
   const [seats, setSeats] = useState([]);
   const [oldPassengers, setOldPassengers] = useState("");
@@ -33,8 +34,8 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
   const [oldSeats, setOldSeats] = useState("");
   const [deletedPassenger, setDeletedPassenger] = useState("");
   const [errors, setErrors] = useState([]);
-
-  console.log(flight);
+  const [loading, setLoading] = useState(false); // State for loading indicator
+  const [isAdded, setIsAdded] = useState({ added: false });
 
   let data = [];
 
@@ -85,6 +86,8 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
     setOldSeats("");
     setDeletedPassenger("");
     setErrors([]);
+    setIsAdded({ added: false });
+    setCurrentSlide(0);
   };
 
   const handleErrors = (callback) => {
@@ -213,6 +216,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
   };
 
   const handleCancelFlight = () => {
+    setLoading(true);
     clientCancelFlight(
       flight.id,
       { status: "CANCELLED" },
@@ -222,31 +226,59 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
         aircraft: flight.aircraft,
       },
       (data) => {
-        console.log(data);
+        if (data) {
+          setLoading(false);
+          setIsAdded({
+            added: true,
+            message: "Success.",
+          });
+          setTimeout(() => {
+            handleClose();
+          }, 2000);
+        }
       }
     );
-    close(false);
   };
 
   const handleAddPassenger = () => {
+    setLoading(true);
     handleErrors(() => {
       clientAddPassenger(flight.id, addPassengerData, (data) => {
-        console.log(data);
+        if (data) {
+          setLoading(false);
+          setIsAdded({
+            added: true,
+            message: "Success.",
+          });
+          setTimeout(() => {
+            handleClose();
+          }, 2000);
+        }
       });
-      close(false);
     });
   };
 
   const handleChangePassenger = () => {
+    setLoading(true);
     handleErrors(() => {
       clientChangePassenger(flight.id, changePassengerData, (data) => {
         console.log(data);
       });
-      close(false);
+      if (data) {
+        setLoading(false);
+        setIsAdded({
+          added: true,
+          message: "Success.",
+        });
+        setTimeout(() => {
+          handleClose();
+        }, 2000);
+      }
     });
   };
 
   const handleChangeClass = () => {
+    setLoading(true);
     handleErrors(() => {
       clientChangeClass(
         flight.id,
@@ -257,14 +289,23 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
           aircraft: flight.aircraft,
         },
         (data) => {
-          console.log(data);
+          if (data) {
+            setLoading(false);
+            setIsAdded({
+              added: true,
+              message: "Success.",
+            });
+            setTimeout(() => {
+              handleClose();
+            }, 2000);
+          }
         }
       );
-      close(false);
     });
   };
 
   const handleChangeSeats = () => {
+    setLoading(true);
     handleErrors(() => {
       clientChangeSeats(
         flight.id,
@@ -275,14 +316,23 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
           classe: flight.selectedClass,
         },
         (data) => {
-          console.log(data);
+          if (data) {
+            setLoading(false);
+            setIsAdded({
+              added: true,
+              message: "Success.",
+            });
+            setTimeout(() => {
+              handleClose();
+            }, 2000);
+          }
         }
       );
-      close(false);
     });
   };
 
   const handleDeletePassenger = () => {
+    setLoading(true);
     handleErrors(() => {
       clientDeletePassenger(
         flight.id,
@@ -293,10 +343,18 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
           classe: flight.selectedClass,
         },
         (data) => {
-          console.log(data);
+          if (data) {
+            setLoading(false);
+            setIsAdded({
+              added: true,
+              message: "Success.",
+            });
+            setTimeout(() => {
+              handleClose();
+            }, 2000);
+          }
         }
       );
-      close(false);
     });
   };
 
@@ -322,6 +380,8 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
                     type="submit"
                     variant="contained"
                     color="primary"
+                    disabled={loading}
+                    startIcon={loading && <CircularProgress size={20} />}
                     onClick={handleCancelFlight}
                   >
                     Confirm
@@ -334,6 +394,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
                     label="Passenger Quantity"
                     variant="outlined"
                     value={passengerQuantity}
+                    inputProps={{ min: 1 }}
                     onChange={(e) => {
                       setPassengerQuantity(e.target.value);
                     }}
@@ -371,6 +432,8 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
                     type="submit"
                     variant="contained"
                     color="primary"
+                    disabled={loading}
+                    startIcon={loading && <CircularProgress size={20} />}
                     onClick={handleAddPassenger}
                   >
                     Confirm
@@ -383,6 +446,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
                     label="Passenger Quantity"
                     variant="outlined"
                     value={passengerQuantity}
+                    inputProps={{ min: 1 }}
                     onChange={(e) => {
                       setPassengerQuantity(e.target.value);
                     }}
@@ -436,6 +500,8 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
                     type="submit"
                     variant="contained"
                     color="primary"
+                    disabled={loading}
+                    startIcon={loading && <CircularProgress size={20} />}
                     onClick={handleChangePassenger}
                   >
                     Confirm
@@ -481,6 +547,8 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
                     type="submit"
                     variant="contained"
                     color="primary"
+                    disabled={loading}
+                    startIcon={loading && <CircularProgress size={20} />}
                     onClick={handleChangeClass}
                   >
                     Confirm
@@ -524,6 +592,8 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
                     type="submit"
                     variant="contained"
                     color="primary"
+                    disabled={loading}
+                    startIcon={loading && <CircularProgress size={20} />}
                     onClick={handleChangeSeats}
                   >
                     Confirm
@@ -582,6 +652,8 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
                     type="submit"
                     variant="contained"
                     color="primary"
+                    disabled={loading}
+                    startIcon={loading && <CircularProgress size={20} />}
                     onClick={handleDeletePassenger}
                   >
                     Confirm
@@ -593,6 +665,9 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
                 {errors.length > 0 && (
                   <span style={{ color: "red" }}>{errors.join(",")}</span>
                 )}
+                <span style={{ color: "green" }}>
+                  {isAdded.added && isAdded.message}
+                </span>
               </CardContent>
               {open && data.indexOf(data[currentSlide]) != 0 && (
                 <Button onClick={handlePrevSlide}>Previous</Button>

@@ -9,6 +9,7 @@ import {
   Select,
   TextField,
   Box,
+  CircularProgress,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import Seats from "./Seats";
@@ -17,10 +18,12 @@ import { bookFlight } from "../utilities/helpers";
 const BookFlightModal = ({ open, close, flight }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedClass, setSelectedClass] = useState("");
-  const [passengerQuantity, setPassengerQuantity] = useState(0);
+  const [passengerQuantity, setPassengerQuantity] = useState(1);
   const [passengers, setPassengers] = useState("");
   const [seats, setSeats] = useState([]);
   const [errors, setErrors] = useState([]);
+  const [loading, setLoading] = useState(false); // State for loading indicator
+  const [isAdded, setIsAdded] = useState({ added: false });
 
   const { email, username, phoneNumber } = useSelector(
     (store) => store.user.user
@@ -84,6 +87,8 @@ const BookFlightModal = ({ open, close, flight }) => {
   };
 
   const handleSubmit = () => {
+    setLoading(true);
+
     if (Number(passengerQuantity) !== passengers?.split(",").length) {
       setErrors([
         ...errors,
@@ -98,8 +103,16 @@ const BookFlightModal = ({ open, close, flight }) => {
       ]);
     } else {
       bookFlight(bookData, (data) => {
-        console.log(data);
-        close(false);
+        if (data) {
+          setLoading(false);
+          setIsAdded({
+            added: true,
+            message: "Success.",
+          });
+          setTimeout(() => {
+            close(false);
+          }, 2000);
+        }
       });
     }
   };
@@ -137,6 +150,7 @@ const BookFlightModal = ({ open, close, flight }) => {
               label="Passenger Quantity"
               variant="outlined"
               value={passengerQuantity}
+              inputProps={{ min: 1 }}
               onChange={(e) => {
                 setErrors([]);
                 setPassengerQuantity(e.target.value);
@@ -173,6 +187,8 @@ const BookFlightModal = ({ open, close, flight }) => {
               type="submit"
               variant="contained"
               color="primary"
+              disabled={loading}
+              startIcon={loading && <CircularProgress size={20} />}
               onClick={handleSubmit}
             >
               Confirm
@@ -182,6 +198,9 @@ const BookFlightModal = ({ open, close, flight }) => {
           {errors.length > 0 && (
             <span style={{ color: "red" }}>{errors.join(",")}</span>
           )}
+          <span style={{ color: "green" }}>
+            {isAdded.added && isAdded.message}
+          </span>
         </div>
         {/* Buttons for navigating slides */}
         {data.indexOf(data[currentSlide]) != 0 && (

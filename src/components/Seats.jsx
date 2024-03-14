@@ -31,6 +31,7 @@ const Seats = ({ seats, setSeats, classe, aircraftName }) => {
     }
   };
   const handleOpen = () => {
+    setSeats([])
     setOpen(true);
   };
   const handleClose = () => {
