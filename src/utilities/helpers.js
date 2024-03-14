@@ -1,12 +1,55 @@
 import axios from "axios";
 const url = "http://localhost:3000";
 
-export function signin(data) {
-  console.log(data);
+export function signin(data, callback) {
+  fetch(`${url}/users`)
+    .then((res) => {
+      return res.json();
+    })
+    .then((result) => {
+      const user = result.filter(
+        (user) => user.email == data.email && user.password == data.password
+      );
+      callback(user);
+    })
+    .catch((err) => {
+      console.error("Error", err);
+    });
 }
 
-export function signup(data) {
-  console.log(data);
+export function signup(data, callback) {
+  fetch(`${url}/users`)
+    .then((res) => {
+      return res.json();
+    })
+    .then((result) => {
+      const [user] = result.filter((user) => user.email == data.email);
+      if (user) {
+        user.status = 409;
+        callback(user);
+      } else {
+        fetch(`${url}/users`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((result) => {
+            result.status = 200;
+            callback(result);
+          })
+          .catch((err) => {
+            console.error("Error", err);
+          });
+      }
+    })
+    .catch((err) => {
+      console.error("Error", err);
+    });
 }
 
 export async function addCity(data) {

@@ -1,5 +1,38 @@
 {
-  "users": [],
+  "users": [
+    {
+      "id": "42ed",
+      "username": "absalom",
+      "email": "absalomlihasi@gmail.com",
+      "password": "1234",
+      "phoneNumber": "0714022687",
+      "rank": "ADMIN"
+    },
+    {
+      "id": "e589",
+      "username": "betcy",
+      "email": "betcy@gmail.com",
+      "password": "1234",
+      "phoneNumber": "0714022687",
+      "rank": "CLIENT"
+    },
+    {
+      "id": "74c7",
+      "username": "paul",
+      "email": "paul@gmail.com",
+      "password": "1234",
+      "phoneNumber": "1234567890",
+      "rank": "CLIENT"
+    },
+    {
+      "id": "cffd",
+      "username": "morell",
+      "email": "morell@gmail.com",
+      "password": "1234",
+      "phoneNumber": "1234567890",
+      "rank": "CLIENT"
+    }
+  ],
   "flights": [
     {
       "id": "1418",
