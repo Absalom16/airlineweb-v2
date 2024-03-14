@@ -1,4 +1,3 @@
-import axios from "axios";
 const url = "http://localhost:3000";
 
 export function signin(data, callback) {
@@ -52,68 +51,144 @@ export function signup(data, callback) {
     });
 }
 
-export async function addCity(data) {
-  const response = await axios.post(`${url}/cities`, data);
-  return response;
+export async function addCity(data, callback) {
+  fetch(`${url}/cities`)
+    .then((res) => {
+      return res.json();
+    })
+    .then((result) => {
+      const [city] = result.filter((city) => city.name == data.name);
+      console.log(city);
+      if (city) {
+        city.status = 409;
+        callback(city);
+      } else {
+        fetch(`${url}/cities`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((result) => {
+            result.status = 200;
+            callback(result);
+          })
+          .catch((err) => {
+            console.error("Error", err);
+          });
+      }
+    })
+    .catch((err) => {
+      console.error("Error", err);
+    });
 }
 
-export async function addAircraft(data) {
-  let firstClassSeats = [];
-  let businessClassSeats = [];
-  let economyClassSeats = [];
-  let firstLetters = ["A", "B", "C", "D"];
-  let businessLetters = ["E", "F", "G", "H"];
-  let economyLetters = ["I", "J", "K", "L"];
+export async function addAircraft(data, callback) {
+  fetch(`${url}/aircrafts`)
+    .then((res) => {
+      return res.json();
+    })
+    .then((result) => {
+      const [aircraft] = result.filter(
+        (aircraft) => aircraft.name == data.name
+      );
 
-  for (let i = 1; i <= data.firstClassCapacity; i++) {
-    let seatNumber = Math.ceil(i / 4); //calculate seat number (1-4)
-    let letterIndex = (i - 1) % 4; //calculate letter index (0-3)
-    let letter = firstLetters[letterIndex];
+      if (aircraft) {
+        aircraft.status = 409;
+        callback(aircraft);
+      } else {
+        let firstClassSeats = [];
+        let businessClassSeats = [];
+        let economyClassSeats = [];
+        let firstLetters = ["A", "B", "C", "D"];
+        let businessLetters = ["E", "F", "G", "H"];
+        let economyLetters = ["I", "J", "K", "L"];
 
-    let seat = {
-      tag: seatNumber.toString() + letter,
-      occupied: false,
-    };
-    firstClassSeats.push(seat);
-  }
+        for (let i = 1; i <= data.firstClassCapacity; i++) {
+          let seatNumber = Math.ceil(i / 4); //calculate seat number (1-4)
+          let letterIndex = (i - 1) % 4; //calculate letter index (0-3)
+          let letter = firstLetters[letterIndex];
 
-  for (let i = 1; i <= data.businessClassCapacity; i++) {
-    let seatNumber = Math.ceil(i / 4); //calculate seat number (1-4)
-    let letterIndex = (i - 1) % 4; //calculate letter index (0-3)
-    let letter = businessLetters[letterIndex];
+          let seat = {
+            tag: seatNumber.toString() + letter,
+            occupied: false,
+          };
+          firstClassSeats.push(seat);
+        }
 
-    let seat = {
-      tag: seatNumber.toString() + letter,
-      occupied: false,
-    };
-    businessClassSeats.push(seat);
-  }
+        for (let i = 1; i <= data.businessClassCapacity; i++) {
+          let seatNumber = Math.ceil(i / 4); //calculate seat number (1-4)
+          let letterIndex = (i - 1) % 4; //calculate letter index (0-3)
+          let letter = businessLetters[letterIndex];
 
-  for (let i = 1; i <= data.economyClassCapacity; i++) {
-    let seatNumber = Math.ceil(i / 4); //calculate seat number (1-4)
-    let letterIndex = (i - 1) % 4; //calculate letter index (0-3)
-    let letter = economyLetters[letterIndex];
+          let seat = {
+            tag: seatNumber.toString() + letter,
+            occupied: false,
+          };
+          businessClassSeats.push(seat);
+        }
 
-    let seat = {
-      tag: seatNumber.toString() + letter,
-      occupied: false,
-    };
-    economyClassSeats.push(seat);
-  }
+        for (let i = 1; i <= data.economyClassCapacity; i++) {
+          let seatNumber = Math.ceil(i / 4); //calculate seat number (1-4)
+          let letterIndex = (i - 1) % 4; //calculate letter index (0-3)
+          let letter = economyLetters[letterIndex];
 
-  data.firstClassSeats = firstClassSeats;
-  data.businessClassSeats = businessClassSeats;
-  data.economyClassSeats = economyClassSeats;
-  data.status = "INACTIVE";
+          let seat = {
+            tag: seatNumber.toString() + letter,
+            occupied: false,
+          };
+          economyClassSeats.push(seat);
+        }
 
-  const response = await axios.post(`${url}/aircrafts`, data);
-  return response;
+        data.firstClassSeats = firstClassSeats;
+        data.businessClassSeats = businessClassSeats;
+        data.economyClassSeats = economyClassSeats;
+
+        fetch(`${url}/aircrafts`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((result) => {
+            result.status = 200;
+            callback(result);
+          })
+          .catch((err) => {
+            console.error("Error", err);
+          });
+      }
+    })
+    .catch((err) => {
+      console.error("Error", err);
+    });
 }
 
-export async function addFlight(data) {
-  data.status = "ACTIVE";
-  const response = await axios.post(`${url}/flights`, data);
-  return response;
+export async function addFlight(data, callback) {
+  fetch(`${url}/flights`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((result) => {
+      callback(result);
+    })
+    .catch((err) => {
+      console.error("Error", err);
+    });
 }
 
 export function getCities(callback) {
