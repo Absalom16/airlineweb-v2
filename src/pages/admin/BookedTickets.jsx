@@ -7,13 +7,13 @@ export default function BookedTickets() {
   const title = "Booked Tickets";
 
   const columns = [
+    { id: "actionViewTickets", label: "", minWidth: 170 },
     { id: "flightNumber", label: "Flight Number", minWidth: 170 },
     { id: "origin", label: "Origin", minWidth: 100 },
     { id: "destination", label: "Destination", minWidth: 170 },
     { id: "date", label: "Date", minWidth: 170 },
     { id: "time", label: "Time", minWidth: 170 },
     { id: "aircraft", label: "Aircraft", minWidth: 170 },
-    { id: "actionViewTickets", label: "Action", minWidth: 170 },
   ];
 
   useEffect(() => {
@@ -22,7 +22,6 @@ export default function BookedTickets() {
         flight.flightNumber = flight.id;
         flight.date = flight.departureDate;
         flight.time = flight.departureTime;
-        flight.aircraft = flight.aircraft.name;
       });
       setRows(data);
     });

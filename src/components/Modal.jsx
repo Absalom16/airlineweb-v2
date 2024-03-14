@@ -1,5 +1,5 @@
 // import from "react";
-import { Dialog, DialogTitle, DialogContent } from "@mui/material";
+import { Dialog, DialogContent } from "@mui/material";
 
 // const style = {
 //   position: 'absolute',
@@ -20,9 +20,9 @@ export default function BasicModal({ children, open, close }) {
     <Dialog
       open={open}
       onClose={handleClose}
+      maxWidth="xl"
       style={{ overflow: "hidden", textAlign: "center" }}
     >
-      <DialogTitle>info modal</DialogTitle>
       <DialogContent>{children}</DialogContent>
     </Dialog>
   );
