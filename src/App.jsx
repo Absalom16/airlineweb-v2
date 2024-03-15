@@ -1,5 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+// import WebSocket from "websocket";
 import PagesLayout from "./pages/PagesLayout";
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
@@ -25,11 +26,35 @@ import { setAircrafts } from "./store/aircraftsSlice";
 function App() {
   const dispatch = useDispatch();
 
+  //fetch real-time updates
   useEffect(() => {
-    getAircrafts((data) => {
-      dispatch(setAircrafts(data));
-    });
-  }, [dispatch]);
+    const ws = new WebSocket("ws://localhost:8080");
+
+    ws.onopen = () => {
+      console.log("Connected to websocket server");
+    };
+
+    ws.onmessage = (message) => {
+      if (message.data === "db_change") {
+        //fetch updated data from server
+        getAircrafts((data) => {
+          console.log(data);
+          // dispatch(setAircrafts(data));
+        });
+      }
+    };
+
+    ws.onclose = () => {
+      console.log("websocket connection closed");
+    };
+  }, []);
+
+  // //initial data fetch
+  // useEffect(() => {
+  //   getAircrafts((data) => {
+  //     dispatch(setAircrafts(data));
+  //   });
+  // }, [dispatch]);
 
   return (
     <BrowserRouter>

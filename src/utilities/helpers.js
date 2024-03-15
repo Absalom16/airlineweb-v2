@@ -60,7 +60,7 @@ export async function addCity(data, callback) {
     })
     .then((result) => {
       const [city] = result.filter((city) => city.name == data.name);
-      console.log(city);
+
       if (city) {
         city.status = 409;
         callback(city);
