@@ -12,6 +12,9 @@ import {
   Drawer,
   Hidden,
   IconButton,
+  Avatar,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -20,15 +23,20 @@ import {
   faUserPlus,
   faSignIn,
   faBars,
-  // faSignOut,
+  faSignOut,
 } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+
 import { NavLink } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { setUser } from "../store/userSlice";
 
 function Header() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false); // State for drawer
+  const [anchorEl, setAnchorEl] = useState(null);
 
-  const navigate = useNavigate();
+  const { username, isLoggedIn } = useSelector((store) => store.user.user);
+
+  const dispatch = useDispatch();
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -41,6 +49,19 @@ function Header() {
     setIsDrawerOpen(false); // Close drawer
   };
 
+  const handleClose = () => {
+    setAnchorEl(null); // Close menu
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget); // Set anchor element when avatar is clicked
+  };
+
+  const logout = () => {
+    if (isDrawerOpen) handleDrawerClose();
+    dispatch(setUser({}));
+    handleClose();
+  };
   return (
     <div style={{ flexGrow: 1, width: "100%" }}>
       <AppBar position="fixed">
@@ -60,32 +81,80 @@ function Header() {
             </IconButton>
           </Hidden>
           {!isSmallScreen && (
-            <>
-              <Button
-                color="inherit"
-                onClick={() => {
-                  navigate("/");
-                }}
-              >
-                Home
-              </Button>
-              <Button
-                color="inherit"
-                onClick={() => {
-                  navigate("login");
-                }}
-              >
-                Login
-              </Button>
-              <Button
-                color="inherit"
-                onClick={() => {
-                  navigate("signup");
-                }}
-              >
-                signup
-              </Button>
-            </>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <NavLink to="/">
+                <Button
+                  // color="inherit"
+                  sx={{
+                    "&:hover": { backgroundColor: "#212121" },
+                    color: "white",
+                  }}
+                >
+                  <span>
+                    <FontAwesomeIcon icon={faHome} />
+                    Home
+                  </span>
+                </Button>
+              </NavLink>
+              <NavLink to="/signup">
+                <Button
+                  // color="inherit"
+                  sx={{
+                    "&:hover": { backgroundColor: "#212121" },
+                    color: "white",
+                  }}
+                >
+                  <span>
+                    <FontAwesomeIcon icon={faUserPlus} /> Signup
+                  </span>
+                </Button>
+              </NavLink>
+
+              {!isLoggedIn ? (
+                <NavLink to="/login">
+                  <Button
+                    // color="inherit"
+                    sx={{
+                      "&:hover": { backgroundColor: "#212121" },
+                      color: "white",
+                    }}
+                  >
+                    <span>
+                      <FontAwesomeIcon icon={faSignIn} /> Login
+                    </span>
+                  </Button>
+                </NavLink>
+              ) : (
+                <>
+                  <Avatar
+                    alt={username.toUpperCase()}
+                    src="/path_to_avatar.jpg"
+                    sx={{
+                      boxShadow: 5,
+                      marginLeft: 1,
+                      backgroundColor: "#212121",
+                      "&:hover": { cursor: "pointer" },
+                    }}
+                    onClick={handleClick} // Open menu on click
+                  />
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                    PaperProps={{
+                      sx: {
+                        backgroundColor: "#212121",
+                        color: "white",
+                      },
+                    }}
+                  >
+                    <MenuItem onClick={logout}>
+                      <FontAwesomeIcon icon={faSignOut} /> Logout
+                    </MenuItem>
+                  </Menu>
+                </>
+              )}
+            </div>
           )}
           {/* Drawer for small screens */}
           <Drawer
@@ -107,21 +176,21 @@ function Header() {
                 </ListItemText>
               </ListItem>
 
-              <ListItem button onClick={handleDrawerClose}>
-                <ListItemText>
-                  <FontAwesomeIcon icon={faSignIn} />{" "}
-                  <NavLink to="/login">Login</NavLink>
-                </ListItemText>
-              </ListItem>
+              {!isLoggedIn && (
+                <ListItem button onClick={handleDrawerClose}>
+                  <ListItemText>
+                    <FontAwesomeIcon icon={faSignIn} />{" "}
+                    <NavLink to="/login">Login</NavLink>
+                  </ListItemText>
+                </ListItem>
+              )}
 
-              <ListItem
-                button
-                onClick={() => {
-                  console.log("clicked");
-                }}
-              >
-                <ListItemText>Logout</ListItemText>
-              </ListItem>
+              {isLoggedIn && (
+                <ListItem button onClick={logout}>
+                  <FontAwesomeIcon icon={faSignOut} />{" "}
+                  <ListItemText>Logout</ListItemText>
+                </ListItem>
+              )}
             </List>
           </Drawer>
         </Toolbar>

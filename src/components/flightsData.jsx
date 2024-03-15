@@ -17,6 +17,7 @@ import ChangeFlightModal from "./ChangeFlightModal";
 import CompleteFlightModal from "./CompleteFlightModal";
 import CancelFlightModal from "./CancelFlightModal";
 import ViewTicketsModal from "./ViewTicketsModal";
+import { printTicket } from "../utilities/helpers";
 
 const FlightsData = ({ columns, rows, title }) => {
   const [page, setPage] = React.useState(0);
@@ -99,7 +100,13 @@ const FlightsData = ({ columns, rows, title }) => {
                                 </>
                               ) : column.id === "actionPrintTicket" ? (
                                 // Render something else for "someOtherColumn"
-                                <Button variant="contained" color="primary">
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={() => {
+                                    printTicket(row);
+                                  }}
+                                >
                                   Ticket
                                 </Button>
                               ) : column.id === "actionChange" ? (

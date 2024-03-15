@@ -1,3 +1,5 @@
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
 const url = "http://localhost:3000";
 
 export function signin(data, callback) {
@@ -610,4 +612,54 @@ export function updateSeatsVacant(name, classe, tags) {
     .catch((err) => {
       console.error("Error", err);
     });
+}
+
+export function printTicket(flight) {
+  // Default export is a4 paper, portrait, using millimeters for units
+  const doc = new jsPDF();
+
+  // Load the image
+  // const img = new Image();
+  // img.src = "./airplaneLogo.jpg";
+
+  // Add the logo to the PDF
+  // doc.addImage(img, "JPEG", 85, 10, 35, 35); // Adjust the coordinates and dimensions as needed
+
+  //add company name
+  doc.text("KenyaAirways", 90, 50);
+
+  // Set up table data
+  const headers = ["Flight Ticket", " "];
+  const data = [
+    ["Username", `${flight.username}`],
+    ["Email", `${flight.email}`],
+    ["Phone Number", `${flight.phoneNumber}`],
+    ["Flight Number", `${flight.flightNumber}`],
+    ["Aircraft", `${flight.aircraft}`],
+    ["Route", `${flight.origin} - ${flight.destination}`],
+    ["Flight Date", `${flight.date}`],
+    ["Flight Time", `${flight.time}`],
+    ["Passengers", `${flight.passengers}`],
+    ["Class", `${flight.selectedClass} class`],
+    ["seat(s)", `${flight.seats}`],
+    ["Amount paid", `Ksh. ${flight.cost}`],
+  ];
+
+  // Set up table properties
+  const tableProps = {
+    startY: 55,
+    head: [headers],
+    body: data,
+    theme: "striped",
+    styles: {
+      lineWidth: 0.1,
+      lineColor: [0, 0, 0],
+    },
+  };
+
+  // Add the table to the PDF
+  doc.autoTable(tableProps);
+
+  // Save the PDF
+  doc.save(`KenyaAirways.${flight.flightNumber}/${flight.username}.pdf`);
 }
