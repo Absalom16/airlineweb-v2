@@ -7,8 +7,6 @@ export default function BookedFlights() {
   const title = "Booked Flights";
 
   const columns = [
-    { id: "actionPrintTicket", label: "", minWidth: 170 },
-    { id: "actionChange", label: "", minWidth: 170 },
     { id: "flightNumber", label: "Flight Number", minWidth: 170 },
     { id: "origin", label: "Origin", minWidth: 100 },
     { id: "destination", label: "Destination", minWidth: 170 },

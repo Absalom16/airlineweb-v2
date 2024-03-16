@@ -7,8 +7,6 @@ export default function ActiveFlights() {
   const title = "Active Flights";
 
   const columns = [
-    { id: "actionComplete", label: "", minWidth: 170 },
-    { id: "actionCancel", label: "", minWidth: 170 },
     { id: "flightNumber", label: "Flight Number", minWidth: 170 },
     { id: "origin", label: "Origin", minWidth: 100 },
     { id: "destination", label: "Destination", minWidth: 170 },
