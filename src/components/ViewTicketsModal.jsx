@@ -11,6 +11,7 @@ import {
   TablePagination,
   TableRow,
   Button,
+  Typography,
 } from "@mui/material";
 import BasicModal from "./Modal";
 import { getTickets, printTicket } from "../utilities/helpers";
@@ -51,14 +52,13 @@ export default function ViewTicketsModal({ open, close, flight }) {
       >
         <Card elevation={20}>
           <CardContent>
+            <Typography sx={{ flex: "1 1 100%" }} variant="h6">
+              {`Flight ${flight.flightNumber} Booked Tickets`}
+            </Typography>
+
             <TableContainer sx={{ maxHeight: 440 }}>
-              <Table stickyHeader aria-label="sticky table">
+              <Table stickyheader="true" aria-label="sticky table">
                 <TableHead>
-                  <TableRow>
-                    <TableCell align="center" colSpan={12}>
-                      {`Flight ${flight.flightNumber} Booked Tickets`}
-                    </TableCell>
-                  </TableRow>
                   <TableRow>
                     {columns.map((column) => (
                       <TableCell
@@ -66,7 +66,7 @@ export default function ViewTicketsModal({ open, close, flight }) {
                         align={column.align}
                         style={{ minWidth: column.minWidth }}
                       >
-                        {column.label}
+                        <strong>{column.label}</strong>
                       </TableCell>
                     ))}
                   </TableRow>

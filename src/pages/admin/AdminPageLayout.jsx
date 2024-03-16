@@ -122,7 +122,7 @@ const AdminPageLayout = () => {
       </Hidden>
 
       {/* Right Section */}
-      <Grid xs={12} md={10}>
+      <Grid item xs={12} md={10}>
         {/* Content for right section */}
         <div
           style={{

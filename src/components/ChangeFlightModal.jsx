@@ -22,8 +22,6 @@ const CancelFlightModal = ({
   const [showModal, setShowModal] = useState(false);
   const [changeData, setChangeData] = useState({});
 
-  console.log(flight);
-
   const buttons = [
     <Button
       key="cancelFlight"

@@ -11,6 +11,7 @@ import {
   TablePagination,
   TableRow,
   Button,
+  Typography,
 } from "@mui/material";
 import BookFlightModal from "./BookFlightModal";
 import ChangeFlightModal from "./ChangeFlightModal";
@@ -50,14 +51,12 @@ const FlightsData = ({ columns, rows, title }) => {
     >
       <Card elevation={20}>
         <CardContent>
+          <Typography sx={{ flex: "1 1 100%" }} variant="h5">
+            {title}
+          </Typography>
           <TableContainer sx={{ maxHeight: 440 }}>
-            <Table stickyHeader aria-label="sticky table">
+            <Table stickyheader="true" aria-label="sticky table">
               <TableHead>
-                <TableRow>
-                  <TableCell align="center" colSpan={12}>
-                    {title}
-                  </TableCell>
-                </TableRow>
                 <TableRow>
                   {columns.map((column) => (
                     <TableCell
@@ -65,7 +64,7 @@ const FlightsData = ({ columns, rows, title }) => {
                       align={column.align}
                       style={{ minWidth: column.minWidth }}
                     >
-                      {column.label}
+                      <strong>{column.label}</strong>
                     </TableCell>
                   ))}
                 </TableRow>

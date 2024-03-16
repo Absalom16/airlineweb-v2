@@ -89,13 +89,12 @@ const AddFlight = () => {
       return;
     }
 
-    addFlight(formData, (data) => {
+    addFlight(formData, () => {
       setLoading(false);
       setIsAdded({
         added: true,
         message: "Added successfully.",
       });
-      console.log(data);
     });
   };
 

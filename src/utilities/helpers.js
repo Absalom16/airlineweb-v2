@@ -437,7 +437,6 @@ export function clientChangeClass(id, newData, oldData, callback) {
 }
 
 export function clientChangeSeats(id, newData, oldData, callback) {
-  // console.log(newData);
   fetch(`${url}/bookedFlights/${id}`, {
     method: "PATCH",
     headers: {
@@ -538,11 +537,10 @@ export function updateSeatsOccupied(name, classe, tags, callback) {
         .then((res) => {
           return res.json();
         })
-        .then((data) => {
+        .then(() => {
           if (callback) {
             callback();
           }
-          console.log(data);
         })
         .catch((err) => {
           console.error("Error", err);
@@ -602,9 +600,7 @@ export function updateSeatsVacant(name, classe, tags) {
         .then((res) => {
           return res.json();
         })
-        .then((data) => {
-          console.log(data);
-        })
+        .then(() => {})
         .catch((err) => {
           console.error("Error", err);
         });

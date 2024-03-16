@@ -124,7 +124,6 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
       oldSeats.split(",").length !== seats.length &&
       changeData.type === "changeSeats"
     ) {
-      console.log(oldSeats, seats);
       setErrors([...errors, "The seats quantities do not match."]);
     } else {
       callback();
@@ -261,9 +260,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
   const handleChangePassenger = () => {
     setLoading(true);
     handleErrors(() => {
-      clientChangePassenger(flight.id, changePassengerData, (data) => {
-        console.log(data);
-      });
+      clientChangePassenger(flight.id, changePassengerData, () => {});
       if (data) {
         setLoading(false);
         setIsAdded({
