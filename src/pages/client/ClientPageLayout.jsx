@@ -96,8 +96,6 @@ const ClientPageLayout = () => {
               <ListItem label="Account" path="account" />
               <ListItem label="Book Flight" path="bookFlight" />
               <ListItem label="Booked Flights" path="bookedFlights" />
-              <ListItem label="Cancelled Flights" path="cancelledFlights" />
-              <ListItem label="Completed Flights" path="completedFlights" />
             </Sidebar>
           </div>
         </Grid>

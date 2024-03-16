@@ -16,6 +16,8 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
+import { tableCellClasses } from "@mui/material/TableCell";
+import { styled } from "@mui/material/styles";
 import BookFlightModal from "./BookFlightModal";
 import ChangeFlightModal from "./ChangeFlightModal";
 import CompleteFlightModal from "./CompleteFlightModal";
@@ -23,10 +25,30 @@ import CancelFlightModal from "./CancelFlightModal";
 import ViewTicketsModal from "./ViewTicketsModal";
 import { printTicket } from "../utilities/helpers";
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
+
 const FlightsData = ({ columns, rows, title }) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  // const [searchQuery, setSearchQuery] = React.useState("");
+  const [searchQuery, setSearchQuery] = React.useState("");
   const [selectedRow, setSelectedRow] = React.useState(null); // State to track selected row
   const [anchorEl, setAnchorEl] = React.useState(null); // State for dropdown menu
 
@@ -49,10 +71,10 @@ const FlightsData = ({ columns, rows, title }) => {
     setPage(0);
   };
 
-  // const handleSearch = (event) => {
-  //   setSearchQuery(event.target.value);
-  //   setPage(0);
-  // };
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value);
+    setPage(0);
+  };
 
   const handleRowClick = (event, rowIndex) => {
     setSelectedRow(rowIndex);
@@ -64,16 +86,13 @@ const FlightsData = ({ columns, rows, title }) => {
     setAnchorEl(null); // Close dropdown menu
   };
 
-  // const filteredRows = rows.filter((row) =>
-  //   Object.values(row).some(
-  //     (value) =>
-  //       typeof value === "string" &&
-  //       value.toLowerCase().includes(searchQuery.toLowerCase())
-  //   )
-  // );
-
-  // console.log(filteredRows)
-  // console.log(rows)
+  const filteredRows = rows.filter((row) =>
+    Object.values(row).some(
+      (value) =>
+        typeof value === "string" &&
+        value.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
 
   return (
     <Container
@@ -90,8 +109,8 @@ const FlightsData = ({ columns, rows, title }) => {
             <TextField
               label="Search"
               variant="outlined"
-              // value={searchQuery}
-              // onChange={handleSearch}
+              value={searchQuery}
+              onChange={handleSearch}
               style={{ marginBottom: "10px" }}
             />
           )}
@@ -100,22 +119,22 @@ const FlightsData = ({ columns, rows, title }) => {
               <TableHead>
                 <TableRow>
                   {columns.map((column) => (
-                    <TableCell
+                    <StyledTableCell
                       key={column.id}
                       align={column.align}
                       style={{ minWidth: column.minWidth }}
                     >
                       <strong>{column.label}</strong>
-                    </TableCell>
+                    </StyledTableCell>
                   ))}
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows
+                {(title === "Available Flights" ? filteredRows : rows)
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, rowIndex) => {
                     return (
-                      <TableRow
+                      <StyledTableRow
                         style={{ cursor: "pointer" }}
                         hover
                         role="checkbox"
@@ -126,12 +145,15 @@ const FlightsData = ({ columns, rows, title }) => {
                         {columns.map((column, colIndex) => {
                           const value = row[column.id];
                           return (
-                            <TableCell key={colIndex} align={column.align}>
+                            <StyledTableCell
+                              key={colIndex}
+                              align={column.align}
+                            >
                               {value}
-                            </TableCell>
+                            </StyledTableCell>
                           );
                         })}
-                      </TableRow>
+                      </StyledTableRow>
                     );
                   })}
                 <BookFlightModal
@@ -183,13 +205,14 @@ const FlightsData = ({ columns, rows, title }) => {
             open={Boolean(anchorEl)}
             onClose={handleCloseDropdown}
             anchorOrigin={{
-              vertical: "bottom",
+              vertical: "center",
               horizontal: "center",
             }}
             transformOrigin={{
-              vertical: "top",
+              vertical: "center",
               horizontal: "center",
             }}
+            sx={{ flex: "1 1 100%" }}
           >
             {selectedRow !== null && (
               <MenuItem>

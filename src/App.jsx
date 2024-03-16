@@ -11,8 +11,6 @@ import ProtectedRoute from "./pages/ProtectedRoute";
 import AccountData from "./pages/client/AccountData";
 import BookFlight from "./pages/client/BookFlight";
 import BookedFlights from "./pages/client/BookedFlights";
-import CancelledFlights from "./pages/client/CancelledFlights";
-import CompletedFlights from "./pages/client/CompletedFlights";
 import ActiveFlights from "./pages/admin/ActiveFlights";
 import AddCity from "./pages/admin/AddCity";
 import AddAircraft from "./pages/admin/AddAircraft";
@@ -149,8 +147,6 @@ function App() {
             <Route path="account" element={<AccountData />} />
             <Route path="bookFlight" element={<BookFlight />} />
             <Route path="bookedFlights" element={<BookedFlights />} />
-            <Route path="cancelledFlights" element={<CancelledFlights />} />
-            <Route path="completedFlights" element={<CompletedFlights />} />
           </Route>
           <Route
             path="admin"
