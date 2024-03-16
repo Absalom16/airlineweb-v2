@@ -83,6 +83,13 @@ const BookFlightModal = ({ open, close, flight }) => {
 
   const handleClose = () => {
     close(false);
+    setCurrentSlide(0);
+    setPassengerQuantity(0);
+    setPassengers("");
+    setSeats([]);
+    setErrors([]);
+    setIsAdded({ added: false });
+    setCurrentSlide(0);
     // setSelectedFlight("");
   };
 
