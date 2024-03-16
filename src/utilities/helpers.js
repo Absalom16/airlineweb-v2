@@ -614,52 +614,69 @@ export function updateSeatsVacant(name, classe, tags) {
     });
 }
 
-export function printTicket(flight) {
-  // Default export is a4 paper, portrait, using millimeters for units
+export function printTicket(flight, user) {
   const doc = new jsPDF();
+  if (user == "client") {
+    //add company name
+    doc.text("KenyaAirways", 90, 50);
 
-  // Load the image
-  // const img = new Image();
-  // img.src = "./airplaneLogo.jpg";
+    // Set up table data
+    const headers = ["Flight Ticket", " "];
+    const data = [
+      ["Username", `${flight.username}`],
+      ["Email", `${flight.email}`],
+      ["Phone Number", `${flight.phoneNumber}`],
+      ["Flight Number", `${flight.flightNumber}`],
+      ["Aircraft", `${flight.aircraft}`],
+      ["Route", `${flight.origin} - ${flight.destination}`],
+      ["Flight Date", `${flight.date}`],
+      ["Flight Time", `${flight.time}`],
+      ["Passengers", `${flight.passengers}`],
+      ["Class", `${flight.selectedClass} class`],
+      ["seat(s)", `${flight.seats}`],
+      ["Amount paid", `Ksh. ${flight.cost}`],
+    ];
 
-  // Add the logo to the PDF
-  // doc.addImage(img, "JPEG", 85, 10, 35, 35); // Adjust the coordinates and dimensions as needed
+    // Set up table properties
+    const tableProps = {
+      startY: 55,
+      head: [headers],
+      body: data,
+      theme: "striped",
+      styles: {
+        lineWidth: 0.1,
+        lineColor: [0, 0, 0],
+      },
+    };
 
-  //add company name
-  doc.text("KenyaAirways", 90, 50);
+    // Add the table to the PDF
+    doc.autoTable(tableProps);
 
-  // Set up table data
-  const headers = ["Flight Ticket", " "];
-  const data = [
-    ["Username", `${flight.username}`],
-    ["Email", `${flight.email}`],
-    ["Phone Number", `${flight.phoneNumber}`],
-    ["Flight Number", `${flight.flightNumber}`],
-    ["Aircraft", `${flight.aircraft}`],
-    ["Route", `${flight.origin} - ${flight.destination}`],
-    ["Flight Date", `${flight.date}`],
-    ["Flight Time", `${flight.time}`],
-    ["Passengers", `${flight.passengers}`],
-    ["Class", `${flight.selectedClass} class`],
-    ["seat(s)", `${flight.seats}`],
-    ["Amount paid", `Ksh. ${flight.cost}`],
-  ];
+    // Save the PDF
+    doc.save(`KenyaAirways.${flight.flightNumber}/${flight.username}.pdf`);
+  } else {
+    const bookings = flight;
+    doc.text("KenyaAirways", 90, 50);
+    doc.text(`flight : ${bookings[0].flightNumber}`, 15, 55);
+    const headers = ["Username", "Passengers", "Class", "Seats"];
+    const data = [];
 
-  // Set up table properties
-  const tableProps = {
-    startY: 55,
-    head: [headers],
-    body: data,
-    theme: "striped",
-    styles: {
-      lineWidth: 0.1,
-      lineColor: [0, 0, 0],
-    },
-  };
+    bookings.forEach((el) => {
+      data.push([el.username, el.passengers, el.selectedClass, el.seats]);
+    });
 
-  // Add the table to the PDF
-  doc.autoTable(tableProps);
+    const tableProps = {
+      startY: 58,
+      head: [headers],
+      body: data,
+      theme: "striped",
+      styles: {
+        lineWidth: 0.1,
+        lineColor: [0, 0, 0],
+      },
+    };
 
-  // Save the PDF
-  doc.save(`KenyaAirways.${flight.flightNumber}/${flight.username}.pdf`);
+    doc.autoTable(tableProps);
+    doc.save(`KenyaAirways_flight${bookings[0].flightNumber}.pdf`);
+  }
 }

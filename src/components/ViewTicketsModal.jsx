@@ -13,7 +13,7 @@ import {
   Button,
 } from "@mui/material";
 import BasicModal from "./Modal";
-import { getTickets } from "../utilities/helpers";
+import { getTickets, printTicket } from "../utilities/helpers";
 
 export default function ViewTicketsModal({ open, close, flight }) {
   const [page, setPage] = useState(0);
@@ -113,8 +113,7 @@ export default function ViewTicketsModal({ open, close, flight }) {
         variant="contained"
         color="primary"
         onClick={() => {
-          // console.log(bookData);
-          // close(false);
+          printTicket(rows, "admin");
         }}
       >
         Print

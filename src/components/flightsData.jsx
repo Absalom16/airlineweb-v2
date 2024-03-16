@@ -104,7 +104,7 @@ const FlightsData = ({ columns, rows, title }) => {
                                   variant="contained"
                                   color="primary"
                                   onClick={() => {
-                                    printTicket(row);
+                                    printTicket(row, "client");
                                   }}
                                 >
                                   Ticket
