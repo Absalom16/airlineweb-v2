@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
 import FlightsData from "../../components/flightsData";
-import { getAllFlights } from "../../utilities/helpers";
+import { useSelector } from "react-redux";
 
 export default function BookedTickets() {
-  const [rows, setRows] = useState([]);
+  const rows = useSelector((store) => store.availableFlights.allFlights);
+
   const title = "Booked Tickets";
 
   const columns = [
@@ -15,17 +15,6 @@ export default function BookedTickets() {
     { id: "time", label: "Time", minWidth: 170 },
     { id: "aircraft", label: "Aircraft", minWidth: 170 },
   ];
-
-  useEffect(() => {
-    getAllFlights((data) => {
-      data.forEach((flight) => {
-        flight.flightNumber = flight.id;
-        flight.date = flight.departureDate;
-        flight.time = flight.departureTime;
-      });
-      setRows(data);
-    });
-  }, []);
 
   return (
     <div>

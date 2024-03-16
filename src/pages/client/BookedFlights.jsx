@@ -1,12 +1,10 @@
-import { useState, useEffect } from "react";
 import FlightsData from "../../components/flightsData";
-import { getBookedFlights } from "../../utilities/helpers";
 import { useSelector } from "react-redux";
 
 export default function BookedFlights() {
-  const [rows, setRows] = useState([]);
+  const rows = useSelector((store) => store.userFlights.userFlights);
+
   const title = "Booked Flights";
-  const { email } = useSelector((store) => store.user.user);
 
   const columns = [
     { id: "actionPrintTicket", label: "", minWidth: 170 },
@@ -21,12 +19,6 @@ export default function BookedFlights() {
     { id: "seats", label: "Seats", minWidth: 170 },
     { id: "status", label: "status", minWidth: 170 },
   ];
-
-  useEffect(() => {
-    getBookedFlights({ email: email }, (bookedFlights) => {
-      setRows(bookedFlights);
-    });
-  }, [email]);
 
   return (
     <div>

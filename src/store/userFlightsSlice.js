@@ -17,3 +17,4 @@ const userFlightsSlice = createSlice({
 export const { setUserFlights } = userFlightsSlice.actions;
 
 export default userFlightsSlice.reducer;
+

@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import WebSocket from "websocket";
 import PagesLayout from "./pages/PagesLayout";
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
@@ -19,11 +18,25 @@ import AddCity from "./pages/admin/AddCity";
 import AddAircraft from "./pages/admin/AddAircraft";
 import AddFlight from "./pages/admin/AddFlight";
 import BookedTickets from "./pages/admin/BookedTickets";
-import { useDispatch } from "react-redux";
-import { getAircrafts } from "./utilities/helpers";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getActiveFlights,
+  getAircrafts,
+  getAllFlights,
+  getBookedFlights,
+  getCities,
+} from "./utilities/helpers";
 import { setAircrafts } from "./store/aircraftsSlice";
+import {
+  setAllFlights,
+  setAvailableFlights,
+} from "./store/availableFlightsSlice";
+import { setUserFlights } from "./store/userFlightsSlice";
+import { setCities } from "./store/citiesSlice";
 
 function App() {
+  const { email } = useSelector((store) => store.user.user);
+
   const dispatch = useDispatch();
 
   //fetch real-time updates
@@ -37,9 +50,39 @@ function App() {
     ws.onmessage = (message) => {
       if (message.data === "db_change") {
         //fetch updated data from server
+        //fetch aircrafts
         getAircrafts((data) => {
-          console.log(data);
-          // dispatch(setAircrafts(data));
+          dispatch(setAircrafts(data));
+        });
+
+        //fetch available flights
+        getActiveFlights((data) => {
+          data.forEach((item) => {
+            item.flightNumber = item.id;
+            item.date = item.departureDate;
+            item.time = item.departureTime;
+          });
+          dispatch(setAvailableFlights(data));
+        });
+
+        //fetch booked flights
+        getBookedFlights({ email: email }, (data) => {
+          dispatch(setUserFlights(data));
+        });
+
+        //fetch cities
+        getCities((data) => {
+          dispatch(setCities(data));
+        });
+
+        //fetch all flights
+        getAllFlights((data) => {
+          data.forEach((flight) => {
+            flight.flightNumber = flight.id;
+            flight.date = flight.departureDate;
+            flight.time = flight.departureTime;
+          });
+          dispatch(setAllFlights(data));
         });
       }
     };
@@ -47,14 +90,45 @@ function App() {
     ws.onclose = () => {
       console.log("websocket connection closed");
     };
-  }, []);
+  }, [dispatch, email]);
 
-  // //initial data fetch
-  // useEffect(() => {
-  //   getAircrafts((data) => {
-  //     dispatch(setAircrafts(data));
-  //   });
-  // }, [dispatch]);
+  //initial data fetch
+  useEffect(() => {
+    //fetch aircrafts
+    getAircrafts((data) => {
+      dispatch(setAircrafts(data));
+    });
+
+    //fetch available flights
+    getActiveFlights((data) => {
+      data.forEach((item) => {
+        item.flightNumber = item.id;
+        item.date = item.departureDate;
+        item.time = item.departureTime;
+      });
+      dispatch(setAvailableFlights(data));
+    });
+
+    //fetch booked flights
+    getBookedFlights({ email: email }, (data) => {
+      dispatch(setUserFlights(data));
+    });
+
+    //fetch cities
+    getCities((data) => {
+      dispatch(setCities(data));
+    });
+
+    //fetch all flights
+    getAllFlights((data) => {
+      data.forEach((flight) => {
+        flight.flightNumber = flight.id;
+        flight.date = flight.departureDate;
+        flight.time = flight.departureTime;
+      });
+      dispatch(setAllFlights(data));
+    });
+  }, [dispatch, email]);
 
   return (
     <BrowserRouter>

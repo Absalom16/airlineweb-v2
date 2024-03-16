@@ -1,20 +1,8 @@
-import { useState, useEffect } from "react";
 import FlightsData from "../../components/flightsData";
-import { getActiveFlights } from "../../utilities/helpers.js";
+import { useSelector } from "react-redux";
 
 export default function ActiveFlights() {
-  const [rows, setRows] = useState([]);
-
-  useEffect(() => {
-    getActiveFlights((data) => {
-      data.forEach((item) => {
-        item.flightNumber = item.id;
-        item.date = item.departureDate;
-        item.time = item.departureTime;
-      });
-      setRows(data);
-    });
-  }, []);
+  const rows = useSelector((store) => store.availableFlights.flights);
 
   const title = "Active Flights";
 

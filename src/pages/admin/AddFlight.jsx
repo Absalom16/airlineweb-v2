@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   TextField,
   Button,
@@ -11,9 +11,13 @@ import {
   MenuItem,
   CircularProgress,
 } from "@mui/material";
-import { addFlight, getCities, getAircrafts } from "../../utilities/helpers.js";
+import { addFlight } from "../../utilities/helpers.js";
+import { useSelector } from "react-redux";
 
 const AddFlight = () => {
+  const aircrafts = useSelector((store) => store.aircrafts.aircrafts);
+  const cities = useSelector((store) => store.cities.cities);
+
   const [formData, setFormData] = useState({
     origin: "",
     destination: "",
@@ -27,20 +31,10 @@ const AddFlight = () => {
     economyClassCost: "",
     status: "ACTIVE",
   });
-  const [cities, setCities] = useState([]);
+
   const [errors, setErrors] = useState({});
-  const [aircrafts, setAircrafts] = useState([]);
   const [loading, setLoading] = useState(false); // State for loading indicator
   const [isAdded, setIsAdded] = useState({ added: false });
-
-  useEffect(() => {
-    getCities((data) => {
-      setCities(data);
-    });
-    getAircrafts((data) => {
-      setAircrafts(data);
-    });
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
