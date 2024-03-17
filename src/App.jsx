@@ -39,7 +39,7 @@ function App() {
 
   //fetch real-time updates
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8080");
+    const ws = new WebSocket("wss://airlineweb-server.onrender.com");
 
     ws.onopen = () => {
       console.log("Connected to websocket server");
