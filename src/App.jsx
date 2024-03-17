@@ -39,7 +39,7 @@ function App() {
 
   //fetch real-time updates
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:3000");
+    const ws = new WebSocket("ws://localhost:8080");
 
     ws.onopen = () => {
       console.log("Connected to websocket server");

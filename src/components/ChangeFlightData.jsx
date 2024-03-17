@@ -238,7 +238,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
           });
           setTimeout(() => {
             handleClose();
-          }, 2000);
+          }, 1000);
         }
       }
     );
@@ -256,7 +256,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
           });
           setTimeout(() => {
             handleClose();
-          }, 2000);
+          }, 1000);
         }
       });
     });
@@ -274,7 +274,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
         });
         setTimeout(() => {
           handleClose();
-        }, 2000);
+        }, 1000);
       }
     });
   };
@@ -299,7 +299,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
             });
             setTimeout(() => {
               handleClose();
-            }, 2000);
+            }, 1000);
           }
         }
       );
@@ -326,7 +326,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
             });
             setTimeout(() => {
               handleClose();
-            }, 2000);
+            }, 1000);
           }
         }
       );
@@ -353,7 +353,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
             });
             setTimeout(() => {
               handleClose();
-            }, 2000);
+            }, 1000);
           }
         }
       );
@@ -542,6 +542,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
                       setSeats={setSeats}
                       classe={newClass}
                       aircraftName={flight.aircraft}
+                      quantity={passengerQuantity}
                     />
                   </Box>
                 ) : changeData.type === "changeClass" &&
@@ -587,6 +588,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
                       setSeats={setSeats}
                       classe={flight.selectedClass}
                       aircraftName={flight.aircraft}
+                      quantity={passengerQuantity}
                     />
                   </Box>
                 ) : changeData.type === "changeSeats" &&

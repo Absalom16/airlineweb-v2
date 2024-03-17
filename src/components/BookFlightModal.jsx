@@ -116,8 +116,8 @@ const BookFlightModal = ({ open, close, flight }) => {
             message: "Success.",
           });
           setTimeout(() => {
-            close(false);
-          }, 2000);
+            handleClose()
+          }, 1000);
         }
       });
     }
