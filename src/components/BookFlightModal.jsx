@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   Dialog,
-  DialogTitle,
   DialogContent,
   Button,
   InputLabel,
@@ -126,7 +125,6 @@ const BookFlightModal = ({ open, close, flight }) => {
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Modal Slideshow</DialogTitle>
       <DialogContent>
         {/* Display current slide */}
         <div>
@@ -187,6 +185,7 @@ const BookFlightModal = ({ open, close, flight }) => {
                 setSeats={setSeats}
                 aircraftName={flight.aircraft}
                 classe={selectedClass}
+                quantity={passengerQuantity}
               />
             </Box>
           ) : (

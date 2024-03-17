@@ -12,7 +12,7 @@ import {
   Badge,
 } from "@mui/material";
 
-const Seats = ({ seats, setSeats, classe, aircraftName }) => {
+const Seats = ({ seats, setSeats, classe, aircraftName, quantity }) => {
   const [open, setOpen] = useState(false);
   const [selectedSeats, setSelectedSeats] = useState([]);
 
@@ -31,7 +31,7 @@ const Seats = ({ seats, setSeats, classe, aircraftName }) => {
     }
   };
   const handleOpen = () => {
-    setSeats([])
+    setSeats([]);
     setOpen(true);
   };
   const handleClose = () => {
@@ -80,12 +80,14 @@ const Seats = ({ seats, setSeats, classe, aircraftName }) => {
                           padding: 10,
                           textAlign: "center",
                           cursor:
-                            seat.occupied == true ? "not-allowed" : "pointer",
+                            seat.occupied == true || seats.length == quantity
+                              ? "not-allowed"
+                              : "pointer",
                           backgroundColor:
                             seat.occupied == true ? "red" : "green",
                         }}
                         onClick={
-                          seat.occupied == true
+                          seat.occupied == true || seats.length == quantity
                             ? null
                             : () => handleSeatClick(seat)
                         }

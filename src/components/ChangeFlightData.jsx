@@ -40,6 +40,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
   let data = [];
 
   const addPassengerData = {
+    type: "addPassenger",
     passengers: `${flight.passengers},${passengers}`,
     seats: `${flight.seats},${seats.map((seat) => seat.tag).join(",")}`,
     passengerQuantity:
@@ -49,14 +50,17 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
   };
 
   const changePassengerData = {
+    type: "changePassenger",
     passengers: flight.passengers.replace(oldPassengers, newPassengers),
   };
   const changeClassData = {
+    type: "changeClass",
     selectedClass: newClass,
     seats: seats.map((seat) => seat.tag).join(","),
   };
 
   const changeSeatsData = {
+    type: "changeSeats",
     seats: flight.seats.replace(
       oldSeats,
       seats.map((seat) => seat.tag).join(",")
@@ -64,6 +68,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
   };
 
   const deletePassengerData = {
+    type: "deletePassenger",
     passengers: flight.passengers
       .split(",")
       .filter((passenger) => passenger !== deletedPassenger)
@@ -218,7 +223,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
     setLoading(true);
     clientCancelFlight(
       flight.id,
-      { status: "CANCELLED" },
+      { type: "cancelFlight", status: "CANCELLED" },
       {
         seats: flight.seats,
         classe: flight.selectedClass,
@@ -421,6 +426,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
                       setSeats={setSeats}
                       classe={flight.selectedClass}
                       aircraftName={flight.aircraft}
+                      quantity={passengerQuantity}
                     />
                   </Box>
                 ) : changeData.type === "addPassenger" &&

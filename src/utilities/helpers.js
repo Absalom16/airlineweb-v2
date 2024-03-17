@@ -302,13 +302,7 @@ export function getTickets(data, callback) {
 }
 
 export function adminCompleteFlight(id, newData, callback) {
-  fetch(`${url}/flights/${id}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(newData),
-  })
+  fetch(`${url}/flights/${id}/${newData.status}`)
     .then((res) => {
       return res.json();
     })
@@ -321,13 +315,7 @@ export function adminCompleteFlight(id, newData, callback) {
 }
 
 export function adminCancelFlight(id, newData, callback) {
-  fetch(`${url}/flights/${id}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(newData),
-  })
+  fetch(`${url}/flights/${id}/${newData.status}`)
     .then((res) => {
       return res.json();
     })
@@ -340,13 +328,7 @@ export function adminCancelFlight(id, newData, callback) {
 }
 
 export function clientCancelFlight(id, newData, oldData, callback) {
-  fetch(`${url}/bookedFlights/${id}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(newData),
-  })
+  fetch(`${url}/bookedFlights/${id}/${JSON.stringify(newData)}`)
     .then((res) => {
       return res.json();
     })
@@ -361,13 +343,7 @@ export function clientCancelFlight(id, newData, oldData, callback) {
 }
 
 export function clientAddPassenger(id, newData, callback) {
-  fetch(`${url}/bookedFlights/${id}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(newData),
-  })
+  fetch(`${url}/bookedFlights/${id}/${JSON.stringify(newData)}`)
     .then((res) => {
       return res.json();
     })
@@ -386,13 +362,7 @@ export function clientAddPassenger(id, newData, callback) {
 }
 
 export function clientChangePassenger(id, newData, callback) {
-  fetch(`${url}/bookedFlights/${id}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(newData),
-  })
+  fetch(`${url}/bookedFlights/${id}/${JSON.stringify(newData)}`)
     .then((res) => {
       return res.json();
     })
@@ -405,13 +375,7 @@ export function clientChangePassenger(id, newData, callback) {
 }
 
 export function clientChangeClass(id, newData, oldData, callback) {
-  fetch(`${url}/bookedFlights/${id}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(newData),
-  })
+  fetch(`${url}/bookedFlights/${id}/${JSON.stringify(newData)}`)
     .then((res) => {
       return res.json();
     })
@@ -437,13 +401,7 @@ export function clientChangeClass(id, newData, oldData, callback) {
 }
 
 export function clientChangeSeats(id, newData, oldData, callback) {
-  fetch(`${url}/bookedFlights/${id}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(newData),
-  })
+  fetch(`${url}/bookedFlights/${id}/${JSON.stringify(newData)}`)
     .then((res) => {
       return res.json();
     })
@@ -469,13 +427,7 @@ export function clientChangeSeats(id, newData, oldData, callback) {
 }
 
 export function clientDeletePassenger(id, newData, oldData, callback) {
-  fetch(`${url}/bookedFlights/${id}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(newData),
-  })
+  fetch(`${url}/bookedFlights/${id}/${JSON.stringify(newData)}`)
     .then((res) => {
       return res.json();
     })
@@ -489,18 +441,19 @@ export function clientDeletePassenger(id, newData, oldData, callback) {
 }
 
 export function updateSeatsOccupied(name, classe, tags, callback) {
-  fetch(`${url}/aircrafts?name=${name}`)
+  fetch(`${url}/aircrafts`)
     .then((res) => {
       return res.json();
     })
     .then((result) => {
+      const [aircraft] = result.filter((item) => item.name === name);
       let seats;
       if (classe == "first") {
-        seats = result[0].firstClassSeats;
+        seats = aircraft.firstClassSeats;
       } else if (classe == "business") {
-        seats = result[0].businessClassSeats;
+        seats = aircraft.businessClassSeats;
       } else if (classe == "economy") {
-        seats = result[0].economyClassSeats;
+        seats = aircraft.economyClassSeats;
       }
 
       //updating newly occupied seats
@@ -527,13 +480,7 @@ export function updateSeatsOccupied(name, classe, tags, callback) {
       }
 
       //updating data in db
-      fetch(`${url}/aircrafts/${result[0].id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updateData),
-      })
+      fetch(`${url}/aircrafts/${aircraft.id}/${JSON.stringify(updateData)}`)
         .then((res) => {
           return res.json();
         })
@@ -552,18 +499,19 @@ export function updateSeatsOccupied(name, classe, tags, callback) {
 }
 
 export function updateSeatsVacant(name, classe, tags) {
-  fetch(`${url}/aircrafts?name=${name}`)
+  fetch(`${url}/aircrafts`)
     .then((res) => {
       return res.json();
     })
     .then((result) => {
+      const [aircraft] = result.filter((item) => item.name === name);
       let seats;
       if (classe == "first") {
-        seats = result[0].firstClassSeats;
+        seats = aircraft.firstClassSeats;
       } else if (classe == "business") {
-        seats = result[0].businessClassSeats;
+        seats = aircraft.businessClassSeats;
       } else if (classe == "economy") {
-        seats = result[0].economyClassSeats;
+        seats = aircraft.economyClassSeats;
       }
 
       //updating newly occupied seats
@@ -590,13 +538,7 @@ export function updateSeatsVacant(name, classe, tags) {
       }
 
       //updating data in db
-      fetch(`${url}/aircrafts/${result[0].id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updateData),
-      })
+      fetch(`${url}/aircrafts/${aircraft.id}/${JSON.stringify(updateData)}`)
         .then((res) => {
           return res.json();
         })
