@@ -23,9 +23,10 @@ const ClientPageLayout = () => {
       container
       spacing={2}
       style={{
-        marginTop: "2%",
+        // marginTop: "2%",
         width: "100vw",
         height: "93vh",
+        overflow: "auto",
       }}
     >
       {/*menu icon for small screens */}
@@ -90,6 +91,9 @@ const ClientPageLayout = () => {
             style={{
               height: "100%",
               backgroundColor: "#f0f0f0",
+              position: "fixed",
+              paddingTop: "2%",
+              width: "16%"
             }}
           >
             <Sidebar>
@@ -108,8 +112,8 @@ const ClientPageLayout = () => {
           style={{
             height: "100%",
             backgroundColor: "#d3d3d3",
-            overflow: "auto",
             width: "100%",
+            textAlign: "center",
           }}
         >
           <Outlet />

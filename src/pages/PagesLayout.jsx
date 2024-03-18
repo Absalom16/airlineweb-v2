@@ -23,7 +23,7 @@ const PagesLayout = () => {
           zIndex: 0,
         }}
       ></div>
-      <div style={{ position: "relative", zIndex: 10, overflow: "auto" }}>
+      <div style={{ position: "relative", zIndex: 10, overflow: "hidden" }}>
         <Header />
         <div
           style={{

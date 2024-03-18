@@ -39,7 +39,7 @@ function App() {
 
   //fetch real-time updates
   useEffect(() => {
-    const ws = new WebSocket("wss://airlineweb-server.onrender.com");
+    const ws = new WebSocket("wss://airlineweb-server.onrender.com"); //wss://airlineweb-server.onrender.com
 
     ws.onopen = () => {
       console.log("Connected to websocket server");

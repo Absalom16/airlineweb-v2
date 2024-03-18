@@ -5,6 +5,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
   // Paper,
   Container,
   Card,
@@ -28,11 +29,7 @@ const AccountData = () => {
   );
 
   return (
-    <Container
-      component="main"
-      maxWidth="md"
-      style={{ marginTop: "2%", marginBottom: "2%" }}
-    >
+    <Container component="main" maxWidth="md" style={{ padding: "6%" }}>
       <Card elevation={20}>
         <CardContent>
           <TableContainer
@@ -51,7 +48,9 @@ const AccountData = () => {
               <TableHead>
                 <TableRow>
                   <TableCell align="center" colSpan={2}>
-                    <strong>Account Details</strong>
+                    <Typography sx={{ flex: "1 1 100%" }} variant="h5">
+                      <strong>Account Details</strong>
+                    </Typography>
                   </TableCell>
                 </TableRow>
               </TableHead>

@@ -1,6 +1,6 @@
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
-const url = "https://airlineweb-server.onrender.com";
+const url = "https://airlineweb-server.onrender.com"; //https://airlineweb-server.onrender.com
 
 export function signin(data, callback) {
   fetch(`${url}/users`)

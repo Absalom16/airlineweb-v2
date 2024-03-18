@@ -27,8 +27,8 @@ import { printTicket } from "../utilities/helpers";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    backgroundColor: theme.palette.grey[400],
+    color: theme.palette.common.black,
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
@@ -95,25 +95,23 @@ const FlightsData = ({ columns, rows, title }) => {
   );
 
   return (
-    <Container
-      component="main"
-      maxWidth="l"
-      style={{ marginTop: "2%", marginBottom: "2%" }}
-    >
+    <Container component="main" maxWidth="l" style={{ padding: "6%" }}>
       <Card elevation={20}>
         <CardContent>
           <Typography sx={{ flex: "1 1 100%" }} variant="h5">
             {title}
           </Typography>
-          {title === "Available Flights" && (
-            <TextField
-              label="Search"
-              variant="outlined"
-              value={searchQuery}
-              onChange={handleSearch}
-              style={{ marginBottom: "10px" }}
-            />
-          )}
+          <div style={{ display: "flex", marginBottom: "10px" }}>
+            {title === "Available Flights" && (
+              <TextField
+                label="Search"
+                variant="outlined"
+                value={searchQuery}
+                onChange={handleSearch}
+                style={{ marginRight: "10px" }}
+              />
+            )}
+          </div>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyheader="true" aria-label="sticky table">
               <TableHead>

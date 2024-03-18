@@ -13,10 +13,7 @@ const Sidebar = ({ children }) => {
   };
 
   return (
-    <Paper
-      elevation={3}
-      style={{height: "100%" }}
-    >
+    <Paper elevation={3} style={{ height: "100%", textAlign: "center" }}>
       <List>
         {Children.map(children, (child, index) => (
           <ListItem
