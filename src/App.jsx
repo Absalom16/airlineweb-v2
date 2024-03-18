@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PagesLayout from "./pages/PagesLayout";
 import Home from "./pages/Home";
@@ -33,13 +33,14 @@ import { setUserFlights } from "./store/userFlightsSlice";
 import { setCities } from "./store/citiesSlice";
 
 function App() {
+  const [isUpdated, setIsupdated] = useState(false);
   const { email } = useSelector((store) => store.user.user);
 
   const dispatch = useDispatch();
 
   //fetch real-time updates
   useEffect(() => {
-    const ws = new WebSocket("wss://airlineweb-server.onrender.com"); //wss://airlineweb-server.onrender.com
+    const ws = new WebSocket("ws://localhost:3000"); //wss://airlineweb-server.onrender.com
 
     ws.onopen = () => {
       console.log("Connected to websocket server");
@@ -47,6 +48,7 @@ function App() {
 
     ws.onmessage = (message) => {
       if (message.data === "db_change") {
+        setIsupdated(!isUpdated);
         //fetch updated data from server
         //fetch aircrafts
         getAircrafts((data) => {
@@ -88,7 +90,7 @@ function App() {
     ws.onclose = () => {
       console.log("websocket connection closed");
     };
-  }, [dispatch, email]);
+  }, [isUpdated]);
 
   //initial data fetch
   useEffect(() => {
