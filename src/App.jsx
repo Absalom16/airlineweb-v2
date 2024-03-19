@@ -40,7 +40,7 @@ function App() {
 
   //fetch real-time updates
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:3000"); //wss://airlineweb-server.onrender.com
+    const ws = new WebSocket("wss://airlineweb-server.onrender.com"); //wss://airlineweb-server.onrender.com
 
     ws.onopen = () => {
       console.log("Connected to websocket server");
@@ -71,20 +71,22 @@ function App() {
             });
             dispatch(setAllFlights(data));
           });
-        } else if (data.collection === "bookedFlights") {
+        } else if (
+          data.collection === "bookedFlights" ||
+          data.collection === "aircrafts"
+        ) {
           //fetch booked flights
           getBookedFlights({ email: email }, (data) => {
             dispatch(setUserFlights(data));
+          });
+          //fetch aircrafts
+          getAircrafts((data) => {
+            dispatch(setAircrafts(data));
           });
         } else if (data.collection === "cities") {
           //fetch cities
           getCities((data) => {
             dispatch(setCities(data));
-          });
-        } else if (data.collection === "aircrafts") {
-          //fetch aircrafts
-          getAircrafts((data) => {
-            dispatch(setAircrafts(data));
           });
         }
         setIsupdated(!isUpdated);
