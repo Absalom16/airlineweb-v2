@@ -90,25 +90,27 @@ function Header() {
                     color: "white",
                   }}
                 >
-                  <span>
+                  <span style={{ marginRight: "0.5em" }}>
                     <FontAwesomeIcon icon={faHome} />
-                    Home
                   </span>
+                  Home
                 </Button>
               </NavLink>
-              <NavLink to="/signup">
-                <Button
-                  // color="inherit"
-                  sx={{
-                    "&:hover": { backgroundColor: "#212121" },
-                    color: "white",
-                  }}
-                >
-                  <span>
-                    <FontAwesomeIcon icon={faUserPlus} /> Signup
-                  </span>
-                </Button>
-              </NavLink>
+              {!isLoggedIn && (
+                <NavLink to="/signup">
+                  <Button
+                    sx={{
+                      "&:hover": { backgroundColor: "#212121" },
+                      color: "white",
+                    }}
+                  >
+                    <span style={{ marginRight: "0.5em" }}>
+                      <FontAwesomeIcon icon={faUserPlus} />
+                    </span>
+                    Signup
+                  </Button>
+                </NavLink>
+              )}
 
               {!isLoggedIn ? (
                 <NavLink to="/login">
@@ -119,9 +121,10 @@ function Header() {
                       color: "white",
                     }}
                   >
-                    <span>
-                      <FontAwesomeIcon icon={faSignIn} /> Login
+                    <span style={{ marginRight: "0.5em" }}>
+                      <FontAwesomeIcon icon={faSignIn} />
                     </span>
+                    Login
                   </Button>
                 </NavLink>
               ) : (
@@ -169,12 +172,14 @@ function Header() {
                   <NavLink to="/">Home</NavLink>
                 </ListItemText>
               </ListItem>
-              <ListItem button onClick={handleDrawerClose}>
-                <ListItemText>
-                  <FontAwesomeIcon icon={faUserPlus} />{" "}
-                  <NavLink to="/signup">Signup</NavLink>
-                </ListItemText>
-              </ListItem>
+              {!isLoggedIn && (
+                <ListItem button onClick={handleDrawerClose}>
+                  <ListItemText>
+                    <FontAwesomeIcon icon={faUserPlus} />{" "}
+                    <NavLink to="/signup">Signup</NavLink>
+                  </ListItemText>
+                </ListItem>
+              )}
 
               {!isLoggedIn && (
                 <ListItem button onClick={handleDrawerClose}>

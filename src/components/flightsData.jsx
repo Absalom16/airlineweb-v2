@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import {
   Container,
   Card,
@@ -15,6 +15,7 @@ import {
   Typography,
   Menu,
   MenuItem,
+  Alert,
 } from "@mui/material";
 import { tableCellClasses } from "@mui/material/TableCell";
 import { styled } from "@mui/material/styles";
@@ -46,21 +47,19 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const FlightsData = ({ columns, rows, title }) => {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [searchQuery, setSearchQuery] = React.useState("");
-  const [selectedRow, setSelectedRow] = React.useState(null); // State to track selected row
-  const [anchorEl, setAnchorEl] = React.useState(null); // State for dropdown menu
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedRow, setSelectedRow] = useState(null); // State to track selected row
+  const [anchorEl, setAnchorEl] = useState(null); // State for dropdown menu
+  const [openAlert, setOpenAlert] = useState(true);
 
-  const [openBookFlightModal, setOpenBookFlightModal] = React.useState(false);
-  const [openChangeFlightModal, setOpenChangeFlightModal] =
-    React.useState(false);
-  const [openCompleteFlightModal, setOpenCompleteFlightModal] =
-    React.useState(false);
-  const [openCancelFlightModal, setOpenCancelFlightModal] =
-    React.useState(false);
-  const [openViewTicketsModal, setOpenViewTicketsModal] = React.useState(false);
-  const [selectedFlight, setSelectedFlight] = React.useState("");
+  const [openBookFlightModal, setOpenBookFlightModal] = useState(false);
+  const [openChangeFlightModal, setOpenChangeFlightModal] = useState(false);
+  const [openCompleteFlightModal, setOpenCompleteFlightModal] = useState(false);
+  const [openCancelFlightModal, setOpenCancelFlightModal] = useState(false);
+  const [openViewTicketsModal, setOpenViewTicketsModal] = useState(false);
+  const [selectedFlight, setSelectedFlight] = useState("");
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -86,6 +85,10 @@ const FlightsData = ({ columns, rows, title }) => {
     setAnchorEl(null); // Close dropdown menu
   };
 
+  const handleCloseAlert = () => {
+    setOpenAlert(false);
+  };
+
   const filteredRows = rows.filter((row) =>
     Object.values(row).some(
       (value) =>
@@ -96,6 +99,27 @@ const FlightsData = ({ columns, rows, title }) => {
 
   return (
     <Container component="main" maxWidth="l" style={{ padding: "6%" }}>
+      <div
+        style={{ position: "absolute", top: "10%", left: "50%", right: "0%" }}
+      >
+        {openAlert && (
+          <div
+            style={{
+              display: "flex",
+            }}
+          >
+            <Alert
+              severity="info"
+              onClose={handleCloseAlert}
+              sx={{
+                textAlign: "center",
+              }}
+            >
+              Tap on a flight for action.
+            </Alert>
+          </div>
+        )}
+      </div>
       <Card elevation={20}>
         <CardContent>
           <Typography sx={{ flex: "1 1 100%" }} variant="h5">
@@ -113,7 +137,7 @@ const FlightsData = ({ columns, rows, title }) => {
             )}
           </div>
           <TableContainer sx={{ maxHeight: 440 }}>
-            <Table stickyheader="true" aria-label="sticky table">
+            <Table stickyheader aria-label="sticky table">
               <TableHead>
                 <TableRow>
                   {columns.map((column) => (
