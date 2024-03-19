@@ -47,43 +47,47 @@ function App() {
     };
 
     ws.onmessage = (message) => {
-      if (message.data === "db_change") {
+      const { type, data } = JSON.parse(message.data);
+      console.log(type, data);
+      //fetch updated data from server
+      if (type === "db_change") {
+        if (data.collection === "flights") {
+          //fetch available flights
+          getActiveFlights((data) => {
+            data.forEach((item) => {
+              item.flightNumber = item.id;
+              item.date = item.departureDate;
+              item.time = item.departureTime;
+            });
+            dispatch(setAvailableFlights(data));
+          });
+
+          //fetch all flights
+          getAllFlights((data) => {
+            data.forEach((flight) => {
+              flight.flightNumber = flight.id;
+              flight.date = flight.departureDate;
+              flight.time = flight.departureTime;
+            });
+            dispatch(setAllFlights(data));
+          });
+        } else if (data.collection === "bookedFlights") {
+          //fetch booked flights
+          getBookedFlights({ email: email }, (data) => {
+            dispatch(setUserFlights(data));
+          });
+        } else if (data.collection === "cities") {
+          //fetch cities
+          getCities((data) => {
+            dispatch(setCities(data));
+          });
+        } else if (data.collection === "aircrafts") {
+          //fetch aircrafts
+          getAircrafts((data) => {
+            dispatch(setAircrafts(data));
+          });
+        }
         setIsupdated(!isUpdated);
-        //fetch updated data from server
-        //fetch aircrafts
-        getAircrafts((data) => {
-          dispatch(setAircrafts(data));
-        });
-
-        //fetch available flights
-        getActiveFlights((data) => {
-          data.forEach((item) => {
-            item.flightNumber = item.id;
-            item.date = item.departureDate;
-            item.time = item.departureTime;
-          });
-          dispatch(setAvailableFlights(data));
-        });
-
-        //fetch booked flights
-        getBookedFlights({ email: email }, (data) => {
-          dispatch(setUserFlights(data));
-        });
-
-        //fetch cities
-        getCities((data) => {
-          dispatch(setCities(data));
-        });
-
-        //fetch all flights
-        getAllFlights((data) => {
-          data.forEach((flight) => {
-            flight.flightNumber = flight.id;
-            flight.date = flight.departureDate;
-            flight.time = flight.departureTime;
-          });
-          dispatch(setAllFlights(data));
-        });
       }
     };
 
