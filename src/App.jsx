@@ -39,19 +39,28 @@ function App() {
   const dispatch = useDispatch();
 
   //fetch real-time updates
-  useEffect(() => {
-    const ws = new WebSocket("wss://airlineweb-server.onrender.com"); //wss://airlineweb-server.onrender.com
 
-    ws.onopen = () => {
-      console.log("Connected to websocket server");
-    };
+  const ws = new WebSocket("ws://localhost:3000"); //wss://airlineweb-server.onrender.com
 
-    ws.onmessage = (message) => {
-      const { type, data } = JSON.parse(message.data);
-      console.log(type, data);
-      //fetch updated data from server
-      if (type === "db_change") {
-        if (data.collection === "flights") {
+  ws.onopen = () => {
+    console.log("Connected to websocket server");
+  };
+
+  ws.onmessage = (message) => {
+    const { type, data } = JSON.parse(message.data);
+    console.log(type, data);
+    // fetch updated data from server
+    if (type === "db_change") {
+      if (data.collection === "flights") {
+        //fetch all flights
+        getAllFlights((data) => {
+          data.forEach((flight) => {
+            flight.flightNumber = flight.id;
+            flight.date = flight.departureDate;
+            flight.time = flight.departureTime;
+          });
+          dispatch(setAllFlights(data));
+
           //fetch available flights
           getActiveFlights((data) => {
             data.forEach((item) => {
@@ -61,42 +70,37 @@ function App() {
             });
             dispatch(setAvailableFlights(data));
           });
-
-          //fetch all flights
-          getAllFlights((data) => {
-            data.forEach((flight) => {
-              flight.flightNumber = flight.id;
-              flight.date = flight.departureDate;
-              flight.time = flight.departureTime;
-            });
-            dispatch(setAllFlights(data));
-          });
-        } else if (
-          data.collection === "bookedFlights" ||
-          data.collection === "aircrafts"
-        ) {
+        });
+      } else if (
+        data.collection === "bookedFlights" ||
+        data.collection === "aircrafts"
+      ) {
+        //fetch aircrafts
+        getAircrafts((data) => {
+          dispatch(setAircrafts(data));
           //fetch booked flights
           getBookedFlights({ email: email }, (data) => {
             dispatch(setUserFlights(data));
           });
-          //fetch aircrafts
-          getAircrafts((data) => {
-            dispatch(setAircrafts(data));
-          });
-        } else if (data.collection === "cities") {
-          //fetch cities
-          getCities((data) => {
-            dispatch(setCities(data));
-          });
-        }
-        setIsupdated(!isUpdated);
-      }
-    };
+        });
 
-    ws.onclose = () => {
-      console.log("websocket connection closed");
-    };
-  }, [isUpdated]);
+        //fetch aircrafts
+        getAircrafts((data) => {
+          dispatch(setAircrafts(data));
+        });
+      } else if (data.collection === "cities") {
+        //fetch cities
+        getCities((data) => {
+          dispatch(setCities(data));
+        });
+      }
+      setIsupdated(!isUpdated);
+    }
+  };
+
+  ws.onclose = () => {
+    console.log("websocket connection closed");
+  };
 
   //initial data fetch
   useEffect(() => {
@@ -134,7 +138,7 @@ function App() {
       });
       dispatch(setAllFlights(data));
     });
-  }, [dispatch, email]);
+  }, []);
 
   return (
     <BrowserRouter>

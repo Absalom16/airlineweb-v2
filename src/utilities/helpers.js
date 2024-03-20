@@ -1,6 +1,6 @@
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
-const url = "https://airlineweb-server.onrender.com"; //https://airlineweb-server.onrender.com
+const url = "http://localhost:3000"; //https://airlineweb-server.onrender.com
 
 export function signin(data, callback) {
   fetch(`${url}/users`)
@@ -249,11 +249,16 @@ export function bookFlight(data, callback) {
     .then((result) => {
       callback(result);
     })
+    .then(() => {
+      updateSeatsOccupied(
+        data.aircraft,
+        data.selectedClass,
+        data.seats.split(",")
+      );
+    })
     .catch((err) => {
       console.error("Error", err);
     });
-
-  updateSeatsOccupied(data.aircraft, data.selectedClass, data.seats.split(","));
 }
 
 export function getBookedFlights(data, callback) {
@@ -350,15 +355,16 @@ export function clientAddPassenger(id, newData, callback) {
     .then((result) => {
       callback(result);
     })
+    .then(() => {
+      updateSeatsOccupied(
+        newData.aircraft,
+        newData.classe,
+        newData.seats.split(",")
+      );
+    })
     .catch((err) => {
       console.error("Error", err);
     });
-
-  updateSeatsOccupied(
-    newData.aircraft,
-    newData.classe,
-    newData.seats.split(",")
-  );
 }
 
 export function clientChangePassenger(id, newData, callback) {
@@ -382,22 +388,23 @@ export function clientChangeClass(id, newData, oldData, callback) {
     .then((result) => {
       callback(result);
     })
+    .then(() => {
+      updateSeatsOccupied(
+        oldData.aircraft,
+        newData.selectedClass,
+        newData.seats.split(","),
+        () => {
+          updateSeatsVacant(
+            oldData.aircraft,
+            oldData.classe,
+            oldData.seats.split(",")
+          );
+        }
+      );
+    })
     .catch((err) => {
       console.error("Error", err);
     });
-
-  updateSeatsOccupied(
-    oldData.aircraft,
-    newData.selectedClass,
-    newData.seats.split(","),
-    () => {
-      updateSeatsVacant(
-        oldData.aircraft,
-        oldData.classe,
-        oldData.seats.split(",")
-      );
-    }
-  );
 }
 
 export function clientChangeSeats(id, newData, oldData, callback) {
@@ -408,22 +415,23 @@ export function clientChangeSeats(id, newData, oldData, callback) {
     .then((result) => {
       callback(result);
     })
+    .then(() => {
+      updateSeatsOccupied(
+        oldData.aircraft,
+        oldData.classe,
+        newData.seats.split(","),
+        () => {
+          updateSeatsVacant(
+            oldData.aircraft,
+            oldData.classe,
+            oldData.seats.split(",")
+          );
+        }
+      );
+    })
     .catch((err) => {
       console.error("Error", err);
     });
-
-  updateSeatsOccupied(
-    oldData.aircraft,
-    oldData.classe,
-    newData.seats.split(","),
-    () => {
-      updateSeatsVacant(
-        oldData.aircraft,
-        oldData.classe,
-        oldData.seats.split(",")
-      );
-    }
-  );
 }
 
 export function clientDeletePassenger(id, newData, oldData, callback) {

@@ -82,7 +82,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
   const handleClose = () => {
     close(false);
     setCurrentSlide(0);
-    setPassengerQuantity(0);
+    setPassengerQuantity(1);
     setPassengers("");
     setSeats([]);
     setOldPassengers("");
@@ -542,7 +542,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
                       setSeats={setSeats}
                       classe={newClass}
                       aircraftName={flight.aircraft}
-                      quantity={passengerQuantity}
+                      quantity={flight.passengers.split(",").length}
                     />
                   </Box>
                 ) : changeData.type === "changeClass" &&

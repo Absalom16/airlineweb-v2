@@ -65,11 +65,20 @@ const AddFlight = () => {
     if (!formData.arrivalDate.trim()) {
       errors.arrivalDate = "Arrival date is required";
     }
+    if (formData.arrivalDate < formData.departureDate) {
+      errors.arrivalDate = "Arrival date cannot be earlier than departure date";
+    }
     if (!formData.departureTime.trim()) {
       errors.departureTime = "Departure time is required";
     }
     if (!formData.arrivalTime.trim()) {
       errors.arrivalTime = "Arrival time is required";
+    }
+    if (
+      formData.arrivalDate === formData.departureDate &&
+      formData.arrivalTime < formData.departureTime
+    ) {
+      errors.arrivalTime = "Arrival time cannot be earlier than departure time";
     }
     if (!formData.aircraft.trim()) {
       errors.aircraft = "Aircraft is required";
@@ -164,6 +173,9 @@ const AddFlight = () => {
               InputLabelProps={{
                 shrink: true,
               }}
+              inputProps={{
+                min: new Date().toISOString().split("T")[0],
+              }}
             />
             <TextField
               name="arrivalDate"
@@ -177,6 +189,9 @@ const AddFlight = () => {
               margin="normal"
               InputLabelProps={{
                 shrink: true,
+              }}
+              inputProps={{
+                min: new Date().toISOString().split("T")[0],
               }}
             />
             <TextField
