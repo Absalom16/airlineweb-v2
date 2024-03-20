@@ -1,6 +1,6 @@
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
-const url = "http://localhost:3000"; //https://airlineweb-server.onrender.com
+const url = "https://airlineweb-server.onrender.com"; //https://airlineweb-server.onrender.com
 
 export function signin(data, callback) {
   fetch(`${url}/users`)
@@ -307,7 +307,7 @@ export function getTickets(data, callback) {
 }
 
 export function adminCompleteFlight(id, newData, callback) {
-  fetch(`${url}/flights/${id}/${JSON.stringify(newData.status)}`)
+  fetch(`${url}/flights/${id}/${JSON.stringify(newData)}`)
     .then((res) => {
       return res.json();
     })
@@ -320,7 +320,7 @@ export function adminCompleteFlight(id, newData, callback) {
 }
 
 export function adminCancelFlight(id, newData, callback) {
-  fetch(`${url}/flights/${id}/${JSON.stringify(newData.status)}`)
+  fetch(`${url}/flights/${id}/${JSON.stringify(newData)}`)
     .then((res) => {
       return res.json();
     })

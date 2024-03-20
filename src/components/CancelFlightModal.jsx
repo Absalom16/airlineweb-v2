@@ -9,7 +9,7 @@ export default function CancelFlightModal({ open, close, flight }) {
 
   const handleSubmit = () => {
     setLoading(true);
-    adminCancelFlight(flight.id, { status: "CANCELLED" }, (data) => {
+    adminCancelFlight(flight.id, { status: "CANCELLED", aircraft: flight.aircraft }, (data) => {
       if (data) {
         setLoading(false);
         setCompleted(true);

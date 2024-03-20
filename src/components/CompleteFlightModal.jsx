@@ -9,7 +9,7 @@ export default function CompleteFlightModal({ open, close, flight }) {
 
   const handleSubmit = () => {
     setLoading(true);
-    adminCompleteFlight(flight.id, { status: "COMPLETED" }, (data) => {
+    adminCompleteFlight(flight.id, { status: "COMPLETED", aircraft: flight.aircraft }, (data) => {
       if (data) {
         setLoading(false);
         setCompleted(true);
