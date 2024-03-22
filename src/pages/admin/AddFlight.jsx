@@ -59,6 +59,9 @@ const AddFlight = () => {
     if (!formData.destination.trim()) {
       errors.destination = "Destination is required";
     }
+    if (formData.destination === formData.origin) {
+      errors.destination = "Destination cannot be same as origin.";
+    }
     if (!formData.departureDate.trim()) {
       errors.departureDate = "Departure date is required";
     }

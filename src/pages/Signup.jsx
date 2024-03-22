@@ -51,6 +51,9 @@ const Signup = () => {
     if (!phoneNumber.trim()) {
       errors.phoneNumber = "Phone number is required";
     }
+    if (!/^(07|01)\d{8}$/.test(phoneNumber)) {
+      errors.phoneNumber = "invalid phone number.";
+    }
     if (Object.keys(errors).length > 0) {
       setErrors(errors);
       setLoading(false); // Set loading to false when validation fails
@@ -151,6 +154,7 @@ const Signup = () => {
               fullWidth
               label="Phone Number"
               name="phoneNumber"
+              placeholder="eg. 0700000000"
               autoComplete="phoneNumber"
               error={!!errors.phoneNumber}
               helperText={errors.phoneNumber}
