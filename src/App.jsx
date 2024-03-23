@@ -40,7 +40,7 @@ function App() {
 
   //fetch real-time updates
 
-  const ws = new WebSocket("ws://localhost:3000"); //wss://airlineweb-server.onrender.com
+  const ws = new WebSocket("wss://airlineweb-server.onrender.com"); //wss://airlineweb-server.onrender.com
 
   ws.onopen = () => {
     console.log("Connected to websocket server");
@@ -48,7 +48,7 @@ function App() {
 
   ws.onmessage = (message) => {
     const { type, data } = JSON.parse(message.data);
-    console.log(type, data);
+    // console.log(type, data);
     // fetch updated data from server
     if (type === "db_change") {
       if (data.collection === "flights") {
