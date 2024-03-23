@@ -14,7 +14,29 @@ import {
   Typography,
 } from "@mui/material";
 import BasicModal from "./Modal";
+import { tableCellClasses } from "@mui/material/TableCell";
+import { styled } from "@mui/material/styles";
 import { getTickets, printTicket } from "../utilities/helpers";
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.grey[400],
+    color: theme.palette.common.black,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
 
 export default function ViewTicketsModal({ open, close, flight }) {
   const [page, setPage] = useState(0);
@@ -61,13 +83,13 @@ export default function ViewTicketsModal({ open, close, flight }) {
                 <TableHead>
                   <TableRow>
                     {columns.map((column) => (
-                      <TableCell
+                      <StyledTableCell
                         key={column.id}
                         align={column.align}
                         style={{ minWidth: column.minWidth }}
                       >
                         <strong>{column.label}</strong>
-                      </TableCell>
+                      </StyledTableCell>
                     ))}
                   </TableRow>
                 </TableHead>
@@ -76,7 +98,7 @@ export default function ViewTicketsModal({ open, close, flight }) {
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row, rowIndex) => {
                       return (
-                        <TableRow
+                        <StyledTableRow
                           hover
                           role="checkbox"
                           tabIndex={-1}
@@ -90,7 +112,7 @@ export default function ViewTicketsModal({ open, close, flight }) {
                               </TableCell>
                             );
                           })}
-                        </TableRow>
+                        </StyledTableRow>
                       );
                     })}
                 </TableBody>

@@ -138,7 +138,12 @@ const FlightsData = ({ columns, rows, title }) => {
           </div>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyheader aria-label="sticky table">
-              <TableHead>
+              <TableHead
+                style={{
+                  position: "sticky",
+                  top: 0,
+                }}
+              >
                 <TableRow>
                   {columns.map((column) => (
                     <StyledTableCell
@@ -152,6 +157,7 @@ const FlightsData = ({ columns, rows, title }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
+                {/* {rows.length < 1 && "loading..."} */}
                 {(title === "Available Flights" ? filteredRows : rows)
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, rowIndex) => {
@@ -229,15 +235,11 @@ const FlightsData = ({ columns, rows, title }) => {
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
             onClose={handleCloseDropdown}
-            anchorOrigin={{
-              vertical: "center",
-              horizontal: "center",
+            style={{
+              left: "50%",
+              top: "28%",
+              transform: "translate(-50%, -50%)",
             }}
-            transformOrigin={{
-              vertical: "center",
-              horizontal: "center",
-            }}
-            // sx={{ flex: "1 1 100%" }}
           >
             {selectedRow !== null && (
               <div

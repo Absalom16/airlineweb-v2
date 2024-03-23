@@ -560,69 +560,81 @@ export function updateSeatsVacant(name, classe, tags) {
     });
 }
 
+// Function to print ticket
 export function printTicket(flight, user) {
+  // Create a new jsPDF instance
   const doc = new jsPDF();
-  if (user == "client") {
-    //add company name
-    doc.text("KenyaAirways", 90, 50);
 
-    // Set up table data
-    const headers = ["Flight Ticket", " "];
+  // Set default text size and font
+  doc.setFontSize(12);
+  doc.setFont("helvetica");
+
+  // Add company name
+  doc.setFontSize(18);
+  doc.text("Kenya Airways", 105, 20, { align: "center" });
+
+  // Reset font size
+  doc.setFontSize(12);
+
+  // Check user type
+  if (user === "client") {
+    // Set up table data for client
+
+    // Add "Flight Ticket" string for client
+    doc.setFontSize(14);
+    doc.text("Flight Ticket", 105, 35, { align: "center" });
+
     const data = [
-      ["Username", `${flight.username}`],
-      ["Email", `${flight.email}`],
-      ["Phone Number", `${flight.phoneNumber}`],
-      ["Flight Number", `${flight.flightNumber}`],
-      ["Aircraft", `${flight.aircraft}`],
+      ["Username", flight.username],
+      ["Email", flight.email],
+      ["Phone Number", flight.phoneNumber],
+      ["Flight Number", flight.flightNumber],
+      ["Aircraft", flight.aircraft],
       ["Route", `${flight.origin} - ${flight.destination}`],
-      ["Flight Date", `${flight.date}`],
-      ["Flight Time", `${flight.time}`],
-      ["Passengers", `${flight.passengers}`],
+      ["Flight Date", flight.date],
+      ["Flight Time", flight.time],
+      ["Passengers", flight.passengers],
       ["Class", `${flight.selectedClass} class`],
-      ["seat(s)", `${flight.seats}`],
-      ["Amount paid", `Ksh. ${flight.cost}`],
+      ["Seat(s)", flight.seats],
+      ["Amount Paid", `Ksh. ${flight.cost}`],
     ];
 
-    // Set up table properties
-    const tableProps = {
-      startY: 55,
-      head: [headers],
+    // Add the table to the PDF
+    doc.autoTable({
+      startY: 40,
       body: data,
       theme: "striped",
-      styles: {
-        lineWidth: 0.1,
-        lineColor: [0, 0, 0],
-      },
-    };
-
-    // Add the table to the PDF
-    doc.autoTable(tableProps);
-
-    // Save the PDF
-    doc.save(`KenyaAirways.${flight.flightNumber}/${flight.username}.pdf`);
-  } else {
-    const bookings = flight;
-    doc.text("KenyaAirways", 90, 50);
-    doc.text(`flight : ${bookings[0].flightNumber}`, 15, 55);
-    const headers = ["Username", "Passengers", "Class", "Seats"];
-    const data = [];
-
-    bookings.forEach((el) => {
-      data.push([el.username, el.passengers, el.selectedClass, el.seats]);
+      styles: { lineWidth: 0.1 },
     });
 
-    const tableProps = {
-      startY: 58,
+    // Save the PDF
+    doc.save(`KenyaAirways_${flight.flightNumber}_${flight.username}.pdf`);
+  } else {
+    // Set up table headers for admin
+
+    doc.setFontSize(14);
+    doc.text(`Flight: ${flight[0].flightNumber}`, 105, 35, { align: "center" });
+
+    const headers = ["Username", "Passengers", "Class", "Seats"];
+
+    // Set up table data for admin
+    const data = flight.map((booking) => [
+      booking.username,
+      booking.passengers,
+      booking.selectedClass,
+      booking.seats,
+    ]);
+
+    // Add the table to the PDF
+    doc.autoTable({
+      startY: 40,
       head: [headers],
       body: data,
       theme: "striped",
-      styles: {
-        lineWidth: 0.1,
-        lineColor: [0, 0, 0],
-      },
-    };
+      styles: { lineWidth: 0.1 },
+    });
 
-    doc.autoTable(tableProps);
-    doc.save(`KenyaAirways_flight${bookings[0].flightNumber}.pdf`);
+    // Save the PDF
+    doc.save(`KenyaAirways_flight${flight[0].flightNumber}.pdf`);
   }
 }
