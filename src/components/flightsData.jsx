@@ -240,7 +240,13 @@ const FlightsData = ({ columns, rows, title }) => {
             // sx={{ flex: "1 1 100%" }}
           >
             {selectedRow !== null && (
-              <div style={{ margin: "10px" }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  margin: "10px",
+                }}
+              >
                 {title === "Available Flights" ? (
                   <Button
                     variant="contained"
@@ -266,9 +272,9 @@ const FlightsData = ({ columns, rows, title }) => {
                     >
                       Ticket
                     </Button>
-                    <br />
-                    <br />
+
                     <Button
+                      style={{ marginTop: "5px" }}
                       variant="contained"
                       color="primary"
                       onClick={() => {
@@ -293,9 +299,9 @@ const FlightsData = ({ columns, rows, title }) => {
                     >
                       Complete
                     </Button>
-                    <br />
-                    <br />
+
                     <Button
+                      style={{ marginTop: "5px" }}
                       variant="contained"
                       color="primary"
                       onClick={() => {

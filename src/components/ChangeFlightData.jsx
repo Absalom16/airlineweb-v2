@@ -489,7 +489,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
                     label="Passenger Quantity"
                     variant="outlined"
                     value={passengerQuantity}
-                    inputProps={{ min: 1 }}
+                    inputProps={{ max: 1, min: 1 }}
                     onChange={(e) => {
                       setPassengerQuantity(e.target.value);
                     }}

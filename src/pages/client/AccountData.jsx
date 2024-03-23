@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -12,13 +13,19 @@ import {
   CardContent,
 } from "@mui/material";
 import { useSelector } from "react-redux";
+import { getBookedFlights } from "../../utilities/helpers";
 
 const AccountData = () => {
   const { email, username, phoneNumber } = useSelector(
     (store) => store.user.user
   );
+  const [flights, setFlights] = useState([]);
 
-  const flights = useSelector((store) => store.userFlights.userFlights);
+  getBookedFlights({ email: email }, (data) => {
+    setFlights(data);
+  });
+
+  // const flights = useSelector((store) => store.userFlights.userFlights);
 
   const dueFlights = flights.filter((flight) => flight.status === "DUE");
   const completedFlights = flights.filter(
