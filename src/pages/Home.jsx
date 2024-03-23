@@ -42,10 +42,11 @@ const Home = () => {
             fontSize: isSmallScreen ? "0.9rem" : "1rem",
           }}
         >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget
-          aliquam nunc. Vestibulum id lorem id lorem dictum efficitur eu eget
-          purus. Vestibulum eget lacinia mauris, vel dapibus lectus. Aenean quis
-          arcu orci. Nullam fringilla vestibulum lectus in pharetra.
+          At Kenya Airways, we redefine the art of flying, blending the rich
+          heritage of Africa with a commitment to excellence in service. As the
+          national carrier of Kenya and proudly African, we take immense pride
+          in connecting you to over 50 destinations worldwide, while showcasing
+          the warmth and vibrancy of our continent.
         </Typography>
         <Button
           variant="contained"

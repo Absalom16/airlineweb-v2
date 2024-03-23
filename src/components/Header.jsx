@@ -66,8 +66,21 @@ function Header() {
     <div style={{ flexGrow: 1, width: "100%" }}>
       <AppBar position="fixed">
         <Toolbar>
-          <Typography variant="h6" style={{ flexGrow: 1 }}>
-            kenyaAirways
+          <Typography
+            variant="h6"
+            style={{
+              flexGrow: 1,
+              textShadow: "5px 5px 7px rgba(0, 0, 0, 0.5)",
+            }}
+          >
+            <NavLink
+              to="/"
+              style={{
+                color: "white",
+              }}
+            >
+              KenyaAirways
+            </NavLink>
           </Typography>
           {/* Hamburger menu for small screens */}
           <Hidden smUp>
