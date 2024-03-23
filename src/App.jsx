@@ -40,7 +40,7 @@ function App() {
 
   //fetch real-time updates
 
-  const ws = new WebSocket("wss://airlineweb-server.onrender.com"); //wss://airlineweb-server.onrender.com
+  const ws = new WebSocket("ws://localhost:3000"); //wss://airlineweb-server.onrender.com
 
   ws.onopen = () => {
     console.log("Connected to websocket server");
@@ -138,7 +138,7 @@ function App() {
       });
       dispatch(setAllFlights(data));
     });
-  }, []);
+  }, [dispatch, email]);
 
   return (
     <BrowserRouter>

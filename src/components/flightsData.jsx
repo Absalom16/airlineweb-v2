@@ -14,7 +14,7 @@ import {
   Button,
   Typography,
   Menu,
-  MenuItem,
+  // MenuItem,
   Alert,
 } from "@mui/material";
 import { tableCellClasses } from "@mui/material/TableCell";
@@ -77,7 +77,7 @@ const FlightsData = ({ columns, rows, title }) => {
 
   const handleRowClick = (event, rowIndex) => {
     setSelectedRow(rowIndex);
-    setSelectedFlight(rows[rowIndex]);
+    // setSelectedFlight(rows[rowIndex]);
     setAnchorEl(event.currentTarget); // Open dropdown menu
   };
 
@@ -162,7 +162,10 @@ const FlightsData = ({ columns, rows, title }) => {
                         role="checkbox"
                         tabIndex={-1}
                         key={rowIndex}
-                        onClick={(event) => handleRowClick(event, rowIndex)}
+                        onClick={(event) => {
+                          handleRowClick(event, rowIndex);
+                          setSelectedFlight(row);
+                        }}
                       >
                         {columns.map((column, colIndex) => {
                           const value = row[column.id];
@@ -234,24 +237,22 @@ const FlightsData = ({ columns, rows, title }) => {
               vertical: "center",
               horizontal: "center",
             }}
-            sx={{ flex: "1 1 100%" }}
+            // sx={{ flex: "1 1 100%" }}
           >
             {selectedRow !== null && (
-              <MenuItem>
+              <div style={{ margin: "10px" }}>
                 {title === "Available Flights" ? (
-                  <>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => {
-                        setSelectedRow(null);
-                        setAnchorEl(null);
-                        setOpenBookFlightModal(true);
-                      }}
-                    >
-                      Book
-                    </Button>
-                  </>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                      setSelectedRow(null);
+                      setAnchorEl(null);
+                      setOpenBookFlightModal(true);
+                    }}
+                  >
+                    Book
+                  </Button>
                 ) : title === "Booked Flights" ? (
                   <>
                     <Button
@@ -265,6 +266,8 @@ const FlightsData = ({ columns, rows, title }) => {
                     >
                       Ticket
                     </Button>
+                    <br />
+                    <br />
                     <Button
                       variant="contained"
                       color="primary"
@@ -290,6 +293,8 @@ const FlightsData = ({ columns, rows, title }) => {
                     >
                       Complete
                     </Button>
+                    <br />
+                    <br />
                     <Button
                       variant="contained"
                       color="primary"
@@ -303,21 +308,19 @@ const FlightsData = ({ columns, rows, title }) => {
                     </Button>
                   </>
                 ) : (
-                  <>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => {
-                        setSelectedRow(null);
-                        setAnchorEl(null);
-                        setOpenViewTicketsModal(true);
-                      }}
-                    >
-                      View
-                    </Button>
-                  </>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                      setSelectedRow(null);
+                      setAnchorEl(null);
+                      setOpenViewTicketsModal(true);
+                    }}
+                  >
+                    View
+                  </Button>
                 )}
-              </MenuItem>
+              </div>
             )}
           </Menu>
         </CardContent>

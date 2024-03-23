@@ -21,7 +21,7 @@ import {
   clientChangeSeats,
   clientDeletePassenger,
 } from "../utilities/helpers";
-// import { UseSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const ChangeFlightData = ({ open, close, changeData, flight }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -36,6 +36,22 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false); // State for loading indicator
   const [isAdded, setIsAdded] = useState({ added: false });
+  const [activeFlight] = useSelector((store) =>
+    store.availableFlights.flights.filter(
+      (item) => item.id === flight.flightNumber
+    )
+  );
+
+  const changeClassCost =
+    (newClass === "first"
+      ? activeFlight.firstClassCost
+      : newClass === "business"
+      ? activeFlight.businessClassCost
+      : newClass === "economy"
+      ? activeFlight.economyClassCost
+      : "") *
+      flight.passengers.split(",").length -
+    flight.cost;
 
   let data = [];
 
@@ -47,6 +63,9 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
       Number(flight.passengerQuantity) + Number(passengerQuantity),
     aircraft: flight.aircraft,
     classe: flight.selectedClass,
+    cost:
+      flight.cost +
+      (flight.cost / flight.passengers.split(",").length) * passengerQuantity,
   };
 
   const changePassengerData = {
@@ -57,6 +76,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
     type: "changeClass",
     selectedClass: newClass,
     seats: seats.map((seat) => seat.tag).join(","),
+    cost: flight.cost + changeClassCost,
   };
 
   const changeSeatsData = {
@@ -77,6 +97,9 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
       .split(",")
       .filter((seat) => seat !== oldSeats)
       .join(","),
+    cost:
+      deletedPassenger.split(",").length *
+      (flight.cost / flight.passengers.split(",").length),
   };
 
   const handleClose = () => {
@@ -93,6 +116,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
     setErrors([]);
     setIsAdded({ added: false });
     setCurrentSlide(0);
+    setLoading(false);
   };
 
   const handleErrors = (callback) => {
@@ -138,7 +162,9 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
   if (changeData.type === "cancelFlight") {
     data = [
       {
-        question: "Are you sure to cancel this flight?",
+        question: `Are you sure to cancel this flight? A 10% penalty of ksh.${
+          flight.cost * (10 / 100)
+        } will be applied on your refund`,
       },
     ];
   } else if (changeData.type === "addPassenger") {
@@ -153,7 +179,10 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
         question: "Select seats for the passengers?",
       },
       {
-        question: "Add the selected passengers?",
+        question: `You need to pay an additional Ksh.${
+          (flight.cost / flight.passengers.split(",").length) *
+          passengerQuantity
+        } to add the selected passengers.`,
       },
     ];
   } else if (changeData.type === "changePassenger") {
@@ -180,7 +209,13 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
         question: "Select seat in the new class.",
       },
       {
-        question: "Change class?",
+        question: `${
+          changeClassCost < 0
+            ? `You will be refunded Ksh.${JSON.stringify(
+                changeClassCost
+              ).replace("-", "")}`
+            : `You need to pay an extra Ksh.${changeClassCost}`
+        } to change class.`,
       },
     ];
   } else if (changeData.type === "changeSeats") {
@@ -204,19 +239,24 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
         question: "Which seat do you want to give up?",
       },
       {
-        question: "Delete the selected passenger?",
+        question: `You will be refunded Ksh.${
+          deletedPassenger.split(",").length *
+          (flight.cost / flight.passengers.split(",").length)
+        } for the delete passenger`,
       },
     ];
   }
 
   const handleNextSlide = () => {
     setCurrentSlide((prevSlide) => (prevSlide + 1) % data.length);
+    setLoading(false);
   };
 
   const handlePrevSlide = () => {
     setCurrentSlide((prevSlide) =>
       prevSlide === 0 ? data.length - 1 : prevSlide - 1
     );
+    setLoading(false);
   };
 
   const handleCancelFlight = () => {
