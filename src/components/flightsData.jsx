@@ -113,6 +113,7 @@ const FlightsData = ({ columns, rows, title }) => {
               onClose={handleCloseAlert}
               sx={{
                 textAlign: "center",
+                zIndex: 1,
               }}
             >
               Tap on a flight for action.
@@ -142,6 +143,7 @@ const FlightsData = ({ columns, rows, title }) => {
                 style={{
                   position: "sticky",
                   top: 0,
+                  zIndex: 0,
                 }}
               >
                 <TableRow>
