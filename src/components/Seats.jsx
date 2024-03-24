@@ -48,11 +48,15 @@ const Seats = ({ seats, setSeats, classe, aircraftName, quantity }) => {
         aria-labelledby="child-modal-title"
         aria-describedby="child-modal-description"
       >
-        <Box sx={{}}>
+        <Box sx={{ overflow: "auto" }}>
           <Container
             component="main"
             maxWidth="sm"
-            style={{ textAlign: "center" }}
+            style={{
+              textAlign: "center",
+              maxHeight: "calc(100vh - 64px)", // Adjust based on your header's height
+              overflowY: "auto",
+            }}
           >
             <Card elevation={20}>
               {classe === "first"
