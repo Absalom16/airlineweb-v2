@@ -1,8 +1,16 @@
+import { useState, useEffect } from "react";
 import FlightsData from "../../components/flightsData";
 import { useSelector } from "react-redux";
 
 export default function BookFlight() {
+  const [isLoading, setIsLoading] = useState(true);
   const rows = useSelector((store) => store.availableFlights.flights);
+
+  useEffect(() => {
+    if (rows) {
+      setIsLoading(false);
+    }
+  }, [rows]);
 
   const title = "Available Flights";
 
@@ -16,7 +24,12 @@ export default function BookFlight() {
 
   return (
     <div>
-      <FlightsData columns={columns} rows={rows} title={title} />
+      <FlightsData
+        columns={columns}
+        rows={rows}
+        title={title}
+        isLoading={isLoading}
+      />
     </div>
   );
 }

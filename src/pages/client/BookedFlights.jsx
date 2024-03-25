@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FlightsData from "../../components/flightsData";
 import { getBookedFlights } from "../../utilities/helpers";
 import { useSelector } from "react-redux";
 
 export default function BookedFlights() {
+  const [isLoading, setIsLoading] = useState(true);
   const { email } = useSelector((store) => store.user.user);
   // const rows = useSelector((store) =>
   //   store.userFlights.userFlights.filter((flight) => flight.status === "DUE")
@@ -11,9 +12,12 @@ export default function BookedFlights() {
 
   const [rows, setRows] = useState([]);
 
-  getBookedFlights({ email: email }, (data) => {
-    setRows(data.filter((flight) => flight.status === "DUE"));
-  });
+  useEffect(() => {
+    getBookedFlights({ email: email }, (data) => {
+      setRows(data.filter((flight) => flight.status === "DUE"));
+      setIsLoading(false);
+    });
+  }, [email]);
 
   const title = "Booked Flights";
 
@@ -31,7 +35,12 @@ export default function BookedFlights() {
 
   return (
     <div>
-      <FlightsData columns={columns} rows={rows} title={title} />
+      <FlightsData
+        columns={columns}
+        rows={rows}
+        title={title}
+        isLoading={isLoading}
+      />
     </div>
   );
 }

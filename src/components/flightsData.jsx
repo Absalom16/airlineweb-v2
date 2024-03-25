@@ -16,6 +16,7 @@ import {
   Menu,
   // MenuItem,
   Alert,
+  CircularProgress
 } from "@mui/material";
 import { tableCellClasses } from "@mui/material/TableCell";
 import { styled } from "@mui/material/styles";
@@ -46,7 +47,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const FlightsData = ({ columns, rows, title }) => {
+const FlightsData = ({ columns, rows, title,  isLoading }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchQuery, setSearchQuery] = useState("");
@@ -177,7 +178,7 @@ const FlightsData = ({ columns, rows, title }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {/* {rows.length < 1 && "loading..."} */}
+                {isLoading &&  <CircularProgress />}
                 {(title === "Available Flights" ? filteredRows : rows)
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, rowIndex) => {

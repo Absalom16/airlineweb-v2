@@ -12,6 +12,7 @@ import {
   TableRow,
   Button,
   Typography,
+  CircularProgress
 } from "@mui/material";
 import BasicModal from "./Modal";
 import { tableCellClasses } from "@mui/material/TableCell";
@@ -42,6 +43,7 @@ export default function ViewTicketsModal({ open, close, flight }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -62,6 +64,7 @@ export default function ViewTicketsModal({ open, close, flight }) {
   useEffect(() => {
     getTickets(flight, (data) => {
       setRows(data);
+      setIsLoading(false);
     });
   }, [flight]);
 
@@ -72,7 +75,7 @@ export default function ViewTicketsModal({ open, close, flight }) {
         maxWidth="l"
         style={{ marginTop: "2%", marginBottom: "2%" }}
       >
-        <Card elevation={20}>
+        <Card elevation={0}>
           <CardContent>
             <Typography sx={{ flex: "1 1 100%" }} variant="h6">
               {`Flight ${flight.flightNumber} Booked Tickets`}
@@ -94,6 +97,8 @@ export default function ViewTicketsModal({ open, close, flight }) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
+                {rows.length < 1 && "No bookings made yet."}
+                {isLoading && <CircularProgress />}
                   {rows
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row, rowIndex) => {
