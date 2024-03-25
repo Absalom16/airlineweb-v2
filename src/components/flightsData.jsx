@@ -98,7 +98,17 @@ const FlightsData = ({ columns, rows, title }) => {
   );
 
   return (
-    <Container component="main" maxWidth="l" style={{ padding: "6%" }}>
+    <Container
+      component="main"
+      maxWidth="lg"
+      sx={{
+        paddingTop: {
+          xs: "10%",
+          sm: "6%",
+          lg: "6%",
+        },
+      }}
+    >
       <div
         style={{ position: "absolute", top: "10%", left: "50%", right: "0%" }}
       >
@@ -133,7 +143,10 @@ const FlightsData = ({ columns, rows, title }) => {
                 variant="outlined"
                 value={searchQuery}
                 onChange={handleSearch}
-                style={{ marginRight: "10px" }}
+                placeholder="origin or destination"
+                sx={{
+                  marginRight: "10px",
+                }}
               />
             )}
           </div>

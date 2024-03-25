@@ -36,7 +36,17 @@ const AccountData = () => {
   );
 
   return (
-    <Container component="main" maxWidth="md" style={{ padding: "6%" }}>
+    <Container
+      component="main"
+      maxWidth="md"
+      sx={{
+        paddingTop: {
+          xs: "10%",
+          sm: "6%",
+          lg: "6%",
+        },
+      }}
+    >
       <Card elevation={20}>
         <CardContent>
           <TableContainer
@@ -55,7 +65,12 @@ const AccountData = () => {
               <TableHead>
                 <TableRow>
                   <TableCell align="center" colSpan={2}>
-                    <Typography sx={{ flex: "1 1 100%" }} variant="h5">
+                    <Typography
+                      sx={{
+                        flex: "1 1 100%",
+                      }}
+                      variant="h5"
+                    >
                       <strong>Account Details</strong>
                     </Typography>
                   </TableCell>

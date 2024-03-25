@@ -34,7 +34,7 @@ const AdminPageLayout = () => {
         sx={{ display: { md: "none" } }} // Hide for medium screens and up
         style={{
           position: "fixed",
-          top: "70px",
+          top: "55px",
           left: "1px",
           backgroundColor: "#212121",
           color: "white",

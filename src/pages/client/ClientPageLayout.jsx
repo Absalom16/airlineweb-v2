@@ -35,7 +35,7 @@ const ClientPageLayout = () => {
         sx={{ display: { md: "none" } }} // Hide for medium screens and up
         style={{
           position: "fixed",
-          top: "70px",
+          top: "55px",
           left: "1px",
           backgroundColor: "#212121",
           color: "white",
@@ -93,7 +93,7 @@ const ClientPageLayout = () => {
               backgroundColor: "#f0f0f0",
               position: "fixed",
               paddingTop: "2%",
-              width: "16%"
+              width: "16%",
             }}
           >
             <Sidebar>
