@@ -487,7 +487,7 @@ export function updateSeatsOccupied(
         seats.forEach((seat) => {
           if (seat.tag == tag) {
             seat.occupied = true;
-            flightNumber;
+            seat.flightNumber = flightNumber;
           }
           if (arr.includes(seat)) {
             return;
@@ -546,7 +546,8 @@ export function updateSeatsVacant(name, classe, tags, flightNumber) {
         seats.forEach((seat) => {
           if (seat.tag == tag) {
             seat.occupied = false;
-            flightNumber;
+            seat.flightNumber = flightNumber;
+           
           }
           if (arr.includes(seat)) {
             return;
