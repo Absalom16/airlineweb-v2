@@ -253,7 +253,8 @@ export function bookFlight(data, callback) {
       updateSeatsOccupied(
         data.aircraft,
         data.selectedClass,
-        data.seats.split(",")
+        data.seats.split(","),
+        data.flightNumber
       );
     })
     .catch((err) => {
@@ -344,7 +345,12 @@ export function clientCancelFlight(id, newData, oldData, callback) {
       console.error("Error", err);
     });
 
-  updateSeatsVacant(oldData.aircraft, oldData.classe, oldData.seats.split(","));
+  updateSeatsVacant(
+    oldData.aircraft,
+    oldData.classe,
+    oldData.seats.split(","),
+    oldData.flightNumber
+  );
 }
 
 export function clientAddPassenger(id, newData, callback) {
@@ -359,7 +365,8 @@ export function clientAddPassenger(id, newData, callback) {
       updateSeatsOccupied(
         newData.aircraft,
         newData.classe,
-        newData.seats.split(",")
+        newData.seats.split(","),
+        newData.flightNumber
       );
     })
     .catch((err) => {
@@ -393,11 +400,13 @@ export function clientChangeClass(id, newData, oldData, callback) {
         oldData.aircraft,
         newData.selectedClass,
         newData.seats.split(","),
+        oldData.flightNumber,
         () => {
           updateSeatsVacant(
             oldData.aircraft,
             oldData.classe,
-            oldData.seats.split(",")
+            oldData.seats.split(","),
+            oldData.flightNumber
           );
         }
       );
@@ -420,11 +429,13 @@ export function clientChangeSeats(id, newData, oldData, callback) {
         oldData.aircraft,
         oldData.classe,
         newData.seats.split(","),
+        oldData.flightNumber,
         () => {
           updateSeatsVacant(
             oldData.aircraft,
             oldData.classe,
-            oldData.seats.split(",")
+            oldData.seats.split(","),
+            oldData.flightNumber
           );
         }
       );
@@ -448,7 +459,13 @@ export function clientDeletePassenger(id, newData, oldData, callback) {
   updateSeatsVacant(oldData.aircraft, oldData.classe, oldData.seats.split(","));
 }
 
-export function updateSeatsOccupied(name, classe, tags, callback) {
+export function updateSeatsOccupied(
+  name,
+  classe,
+  tags,
+  flightNumber,
+  callback
+) {
   fetch(`${url}/aircrafts`)
     .then((res) => {
       return res.json();
@@ -470,6 +487,7 @@ export function updateSeatsOccupied(name, classe, tags, callback) {
         seats.forEach((seat) => {
           if (seat.tag == tag) {
             seat.occupied = true;
+            flightNumber;
           }
           if (arr.includes(seat)) {
             return;
@@ -506,7 +524,7 @@ export function updateSeatsOccupied(name, classe, tags, callback) {
     });
 }
 
-export function updateSeatsVacant(name, classe, tags) {
+export function updateSeatsVacant(name, classe, tags, flightNumber) {
   fetch(`${url}/aircrafts`)
     .then((res) => {
       return res.json();
@@ -528,6 +546,7 @@ export function updateSeatsVacant(name, classe, tags) {
         seats.forEach((seat) => {
           if (seat.tag == tag) {
             seat.occupied = false;
+            flightNumber;
           }
           if (arr.includes(seat)) {
             return;

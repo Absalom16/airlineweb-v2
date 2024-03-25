@@ -66,6 +66,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
     cost:
       flight.cost +
       (flight.cost / flight.passengers.split(",").length) * passengerQuantity,
+    flightNumber: flight.flightNumber,
   };
 
   const changePassengerData = {
@@ -268,6 +269,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
         seats: flight.seats,
         classe: flight.selectedClass,
         aircraft: flight.aircraft,
+        flightNumber: flight.flightNumber,
       },
       (data) => {
         if (data) {
@@ -329,6 +331,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
           seats: flight.seats,
           classe: flight.selectedClass,
           aircraft: flight.aircraft,
+          flightNumber: flight.flightNumber,
         },
         (data) => {
           if (data) {
@@ -356,6 +359,7 @@ const ChangeFlightData = ({ open, close, changeData, flight }) => {
           seats: oldSeats,
           aircraft: flight.aircraft,
           classe: flight.selectedClass,
+          flightNumber: flight.flightNumber,
         },
         (data) => {
           if (data) {
