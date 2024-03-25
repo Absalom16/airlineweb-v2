@@ -45,6 +45,11 @@ const AccountData = () => {
           sm: "6%",
           lg: "6%",
         },
+        paddingBottom: {
+          xs: "10%",
+          sm: "6%",
+          lg: "6%",
+        },
       }}
     >
       <Card elevation={20}>

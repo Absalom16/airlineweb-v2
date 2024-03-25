@@ -107,6 +107,11 @@ const FlightsData = ({ columns, rows, title }) => {
           sm: "6%",
           lg: "6%",
         },
+        paddingBottom: {
+          xs: "10%",
+          sm: "6%",
+          lg: "6%",
+        },
       }}
     >
       <div
