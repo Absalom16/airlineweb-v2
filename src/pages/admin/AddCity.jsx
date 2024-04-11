@@ -62,7 +62,20 @@ const AddCity = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs" style={{ padding: "5%" }}>
+    <Container component="main"
+    maxWidth="md"
+    sx={{
+      paddingTop: {
+        xs: "10%",
+        sm: "6%",
+        lg: "6%",
+      },
+      paddingBottom: {
+        xs: "10%",
+        sm: "6%",
+        lg: "6%",
+      },
+    }}>
       <Card elevation={20}>
         <CardContent>
           <Typography component="h1" variant="h5">
