@@ -60,7 +60,7 @@ const AdminPageLayout = () => {
               setIsDrawerOpen(false);
             }}
           >
-            <ListItemText>Add flight</ListItemText>
+            <ListItemText>Add Flight</ListItemText>
           </ListItem>
           <ListItem
             button
@@ -78,7 +78,7 @@ const AdminPageLayout = () => {
               setIsDrawerOpen(false);
             }}
           >
-            <ListItemText>Add aircraft</ListItemText>
+            <ListItemText>Add Aircraft</ListItemText>
           </ListItem>
           <ListItem
             button
@@ -87,7 +87,7 @@ const AdminPageLayout = () => {
               setIsDrawerOpen(false);
             }}
           >
-            <ListItemText>activeFlights</ListItemText>
+            <ListItemText>Active Flights</ListItemText>
           </ListItem>
           <ListItem
             button
