@@ -63,7 +63,7 @@ const AddCity = () => {
 
   return (
     <Container component="main"
-    maxWidth="md"
+    maxWidth="sm"
     sx={{
       paddingTop: {
         xs: "10%",
